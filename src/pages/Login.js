@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, AsyncStorage, KeyboardAvoidingView, Platform, Text, TextInput, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 
 import api from '../services/api';
 
@@ -9,29 +9,43 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  // useEffect(() => {
-  //   AsyncStorage.getItem('user').then(user => {
-  //     if (user) {
-  //       navigation.navigate('List');
-  //     }
-  //   })
-  // }, []);
+  // Realiza essa ação ao abrir a tela, como o array de dependencias (segundo parâmetro) está vazio
+  useEffect(() => {
+    AsyncStorage.getItem('accessToken').then(accessToken => {
+      if (accessToken && accessToken !== '') {
+        navigation.navigate('Supermercados');
+      }
+    })
+  }, []);
 
   async function handleSubmit() {
-    // const response = await api.post('/sessions', {
-    //   email
-    // })
+    const response = await api.post('/AccountCliente/Login', {
+      email: "teste@gmail.com",
+      accessKey: "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB",
+      grantType: "password"
+    });
 
-    // const { _id } = response.data;
+    const { authenticated } = response.data;
 
-    // await AsyncStorage.setItem('user', _id);
-    // await AsyncStorage.setItem('techs', techs);
+    if (authenticated) {
+      const { nome, accessToken, refreshToken } = response.data;
+      console.log(nome);
 
-    navigation.navigate('Supermercados');
+      await AsyncStorage.setItem('usuarioNome', nome);
+      await AsyncStorage.setItem('accessToken', accessToken);
+      await AsyncStorage.setItem('refreshToken', refreshToken);
+
+      navigation.navigate('Supermercados');
+    }
+    else {
+      console.log("Erro no login");
+      // Mostrar erro]
+    }
   }
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
+      <StatusBar barStyle="dark-content"></StatusBar>
       <Image source={logo} />
 
       <View style={styles.form}>
