@@ -46,7 +46,7 @@ export default function Login({ navigation }) {
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
       <StatusBar barStyle="dark-content"></StatusBar>
-      <Image source={logo} />
+      <Image style={styles.logo} source={logo} />
 
       <View style={styles.form}>
         <Text style={styles.label}>E-mail</Text>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 
   button: {
     height: 42,
-    backgroundColor: '#f05a5b',
+    backgroundColor: '#455a64',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2,
@@ -123,5 +123,10 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+
+  logo: {
+    height: 75,
+    width: 200,
   },
 });
