@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, SafeAreaView, StatusBar, AsyncStorage, St
 
 import api from '../services/api';
 
+import SupermercadoResumo from '../components/SupermercadoResumo';
+
 export default function Login({ navigation }) {
   const [mercados, setMercados] = useState([]);
 
@@ -29,7 +31,7 @@ export default function Login({ navigation }) {
 
       <Text>Supermercados</Text>
 
-      {mercados.map(mercado => <Text key={mercado.id} style={{ fontWeight: 'bold', marginTop: 10 }}>{mercado.nome}</Text>)}
+      {mercados.map(mercado => <SupermercadoResumo key={mercado.id} mercado={mercado} />)}
 
       <TouchableOpacity onPress={handleBuscar} style={styles.button}>
         <Text style={styles.buttonText}>Buscar mercados</Text>
