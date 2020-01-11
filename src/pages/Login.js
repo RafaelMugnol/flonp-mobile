@@ -76,6 +76,10 @@ export default function Login({ navigation }) {
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.signup}>
+          <Text>Não possui cadastro? Clique aqui.</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -126,7 +130,12 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    height: 75,
-    width: 200,
+    height: 85,
+    width: 210,
+  },
+
+  signup: {
+    alignItems: 'center',
+    marginTop: 25,
   },
 });

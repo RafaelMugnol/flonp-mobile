@@ -17,10 +17,7 @@ export default function Login({ navigation }) {
   };
 
   async function handleBuscar() {
-
     const response = await api.get('/Mercado/Lista');
-
-    console.log(response.data);
 
     setMercados(response.data);
   };
