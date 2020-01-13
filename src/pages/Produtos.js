@@ -6,33 +6,32 @@ import {
 
 import api from '../services/api';
 
-import SupermercadoResumo from '../components/SupermercadoResumo';
+import ProdutoResumo from '../components/ProdutoResumo';
 
-export default function Supermercados({ navigation }) {
-  const [mercados, setMercados] = useState([]);
+export default function Produtos({ navigation }) {
+  const [produtos, setProdutos] = useState([]);
+  const [mercadoId, setMercadoId] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(() => {
-    doRefresh();
+    const mercado = navigation.getParam('mercaodId', 'Produtos');
+    setMercadoId(mercado);
+    doRefresh(mercado);
   }, []);
 
 
   async function handleSubmit() {
-
-    await AsyncStorage.setItem('accessToken', '');
-
-    navigation.navigate('Login');
-
+    navigation.navigate('Supermercados');
   };
 
 
-  async function doRefresh() {
+  async function doRefresh(mercado) {
     setRefreshing(true);
 
-    const response = await api.get('/Mercado/Lista');
+    const response = await api.get('/Produto/Lista/' + (mercado || mercadoId));
 
-    setMercados(response.data);
+    setProdutos(response.data);
 
     setRefreshing(false);
   }
@@ -43,8 +42,8 @@ export default function Supermercados({ navigation }) {
 
       <FlatList
         style={styles.list}
-        data={mercados}
-        renderItem={({ item }) => <SupermercadoResumo mercado={item} />}
+        data={produtos}
+        renderItem={({ item }) => <ProdutoResumo produto={item} />}
         keyExtractor={item => item.id.toString()}
         refreshControl={
           <RefreshControl
@@ -54,10 +53,8 @@ export default function Supermercados({ navigation }) {
         }
       />
 
-      {/* {mercados.map(mercado => <SupermercadoResumo key={mercado.id} mercado={mercado} />)} */}
-
       <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Voltar para login</Text>
+        <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

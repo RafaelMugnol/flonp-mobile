@@ -2,31 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { withNavigation } from 'react-navigation';
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 
-function SupermercadoResumo({ navigation, mercado }) {
+function ProdutoResumo({ navigation, produto }) {
 
-  // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
 
   function urlImage() {
-    return "https://storageprojmerc.blob.core.windows.net/mercados/" + mercado.nomeImagem;
+    if (produto.nomeImagem)
+      return "https://storageprojmerc.blob.core.windows.net/produtos/" + produto.nomeImagem;
   }
 
-  async function handleMercado() {
-    navigation.navigate('Produtos', {
-      mercaodId: mercado.id
-    });
+  async function handleProduto() {
+
+
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.areaClicavel} onPress={handleMercado} >
+      <TouchableOpacity style={styles.areaClicavel} onPress={handleProduto} >
         <View style={styles.linha}>
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 
           <View style={styles.descricao}>
-            <Text style={styles.nomeMercado}>{mercado.nome}</Text>
-            <Text style={styles.texto}>{mercado.cidade}</Text>
-            <Text style={styles.texto}>{mercado.bairro}</Text>
-            <Text style={styles.texto}>{mercado.endereco}</Text>
+            <Text style={styles.nomeProduto}>{produto.nome}</Text>
+            {/* <Text style={styles.texto}>{produto.cidade}</Text>
+            <Text style={styles.texto}>{produto.bairro}</Text>
+            <Text style={styles.texto}>{produto.endereco}</Text> */}
           </View>
         </View>
 
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 
-  nomeMercado: {
+  nomeProduto: {
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 16,
@@ -79,4 +78,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default withNavigation(SupermercadoResumo);
+export default withNavigation(ProdutoResumo);
