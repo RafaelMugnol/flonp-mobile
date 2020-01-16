@@ -4,6 +4,7 @@ import { View, AsyncStorage, KeyboardAvoidingView, Platform, Text, TextInput, Im
 import api from '../services/api';
 
 import logo from '../assets/logo.png';
+import { sha256 } from 'js-sha256';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -13,15 +14,15 @@ export default function Login({ navigation }) {
   useEffect(() => {
     AsyncStorage.getItem('accessToken').then(accessToken => {
       if (accessToken && accessToken !== '') {
-        navigation.navigate('Supermercados');
+        navigation.navigate('PrincipalTab');
       }
     })
   }, []);
 
   async function handleSubmit() {
     const response = await api.post('/AccountCliente/Login', {
-      email: "teste@gmail.com",
-      accessKey: "CA978112CA1BBDCAFAC231B39A23DC4DA786EFF8147C4E72B9807785AFEE48BB",
+      email,
+      accessKey: sha256(senha).toUpperCase(),
       grantType: "password"
     });
 
@@ -29,13 +30,12 @@ export default function Login({ navigation }) {
 
     if (authenticated) {
       const { nome, accessToken, refreshToken } = response.data;
-      console.log(nome);
 
       await AsyncStorage.setItem('usuarioNome', nome);
       await AsyncStorage.setItem('accessToken', accessToken);
       await AsyncStorage.setItem('refreshToken', refreshToken);
 
-      navigation.navigate('Supermercados');
+      navigation.navigate('PrincipalTab');
     }
     else {
       console.log("Erro no login");

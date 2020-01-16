@@ -17,16 +17,6 @@ export default function Supermercados({ navigation }) {
     doRefresh();
   }, []);
 
-
-  async function handleSubmit() {
-
-    await AsyncStorage.setItem('accessToken', '');
-
-    navigation.navigate('Login');
-
-  };
-
-
   async function doRefresh() {
     setRefreshing(true);
 
@@ -39,36 +29,37 @@ export default function Supermercados({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content"></StatusBar>
+      <StatusBar></StatusBar>
 
-      <FlatList
-        style={styles.list}
-        data={mercados}
-        renderItem={({ item }) => <SupermercadoResumo mercado={item} />}
-        keyExtractor={item => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={doRefresh}
-          />
-        }
-      />
-
-      {/* {mercados.map(mercado => <SupermercadoResumo key={mercado.id} mercado={mercado} />)} */}
-
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Voltar para login</Text>
-      </TouchableOpacity>
+      <View style={styles.content}>
+        <FlatList
+          style={styles.list}
+          data={mercados}
+          renderItem={({ item }) => <SupermercadoResumo mercado={item} />}
+          keyExtractor={item => item.id.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={doRefresh}
+            />
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-
     flex: 1,
+    backgroundColor: "#455a64",
+  },
+
+  content: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: "#ffffff",
+    height: '100%',
   },
 
   button: {

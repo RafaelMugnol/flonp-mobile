@@ -10,6 +10,63 @@ function ProdutoResumo({ navigation, produto }) {
       return "https://storageprojmerc.blob.core.windows.net/produtos/" + produto.nomeImagem;
   }
 
+  function AbreviacaoUnidadeMedida(codigo) {
+    switch (codigo) {
+      case 1:
+        return 'UN';
+      case 2:
+        return 'KG';
+      case 3:
+        return 'G';
+      case 4:
+        return 'L';
+      case 5:
+        return 'ML';
+      case 6:
+        return 'M';
+    }
+  }
+
+  function descricaoNome() {
+    return produto.nome + ' - ' + produto.quantidadeEmbalagem + AbreviacaoUnidadeMedida(produto.unidade);
+  }
+
+  function converteNumero(valor, casasDecimais) {
+    if (!casasDecimais)
+      casasDecimais = 0;
+
+    return parseFloat(valor).toFixed(casasDecimais).replace('.', ',');
+  }
+
+  function valorFinalProduto() {
+    let valor = produto.valor;
+
+    if (produto.campanha)
+      valor = produto.campanha.valor;
+
+    return 'R$ ' + converteNumero(valor, 2)
+  }
+
+  function textoPromocao() {
+    if (produto.campanha) {
+      switch (produto.campanha.tipo) {
+        case 0:
+          return "Oferta!";
+        case 1:
+          if (produto.campanha.quantidadeMinima == null)
+            return "Até " + produto.campanha.quantidadeMaxima + " itens";
+          if (produto.campanha.quantidadeMaxima == null)
+            return "Acima de " + produto.campanha.quantidadeMinima + " itens";
+          else
+            return "De " + produto.campanha.quantidadeMinima + " a " + produto.campanha.quantidadeMaxima + " itens";
+        case 2:
+          return "Leve " + produto.campanha.quantidadeLeve + " e pague " + produto.campanha.quantidadePague;
+      }
+    }
+
+    return "";
+  }
+
   async function handleProduto() {
 
 
@@ -22,10 +79,13 @@ function ProdutoResumo({ navigation, produto }) {
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 
           <View style={styles.descricao}>
-            <Text style={styles.nomeProduto}>{produto.nome}</Text>
-            {/* <Text style={styles.texto}>{produto.cidade}</Text>
-            <Text style={styles.texto}>{produto.bairro}</Text>
-            <Text style={styles.texto}>{produto.endereco}</Text> */}
+            <Text style={styles.nomeProduto}>{descricaoNome()}</Text>
+
+            <Text style={styles.valor}>{valorFinalProduto()}</Text>
+
+            {produto.campanha &&
+              <Text style={styles.promocao}>{textoPromocao()}</Text>
+            }
           </View>
         </View>
 
@@ -50,6 +110,8 @@ const styles = StyleSheet.create({
   },
 
   descricao: {
+    flex: 1,
+    flexDirection: 'column',
     marginLeft: 15,
   },
 
@@ -57,10 +119,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 16,
+    height: 40
   },
 
-  texto: {
+  valor: {
+    height: 22,
+    fontSize: 16,
+  },
 
+  promocao: {
+    // backgroundColor: '#ff5f5f',
+    alignSelf: 'flex-start',
+    padding: 3,
+    borderRadius: 5,
+    borderColor: '#d31f1f',
+    borderWidth: 2
   },
 
   thumbnail: {

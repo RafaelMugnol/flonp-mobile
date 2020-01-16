@@ -12,7 +12,10 @@ function SupermercadoResumo({ navigation, mercado }) {
 
   async function handleMercado() {
     navigation.navigate('Produtos', {
-      mercaodId: mercado.id
+      mercaodInfo: {
+        id: mercado.id,
+        nome: mercado.nome
+      }
     });
   };
 

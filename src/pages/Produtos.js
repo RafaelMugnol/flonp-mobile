@@ -5,19 +5,19 @@ import {
 } from 'react-native';
 
 import api from '../services/api';
-
 import ProdutoResumo from '../components/ProdutoResumo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Produtos({ navigation }) {
   const [produtos, setProdutos] = useState([]);
-  const [mercadoId, setMercadoId] = useState([]);
+  const [mercadoInfo, setMercadoInfo] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
 
   useEffect(() => {
-    const mercado = navigation.getParam('mercaodId', 'Produtos');
-    setMercadoId(mercado);
-    doRefresh(mercado);
+    const mercado = navigation.getParam('mercaodInfo', 'Produtos');
+    setMercadoInfo(mercado);
+    doRefresh(mercado.id);
   }, []);
 
 
@@ -29,7 +29,7 @@ export default function Produtos({ navigation }) {
   async function doRefresh(mercado) {
     setRefreshing(true);
 
-    const response = await api.get('/Produto/Lista/' + (mercado || mercadoId));
+    const response = await api.get('/Produto/Lista/' + (mercado || mercadoInfo.id));
 
     setProdutos(response.data);
 
@@ -38,44 +38,62 @@ export default function Produtos({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content"></StatusBar>
+      <StatusBar backgroundColor="#000000"></StatusBar>
 
-      <FlatList
-        style={styles.list}
-        data={produtos}
-        renderItem={({ item }) => <ProdutoResumo produto={item} />}
-        keyExtractor={item => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={doRefresh}
-          />
-        }
-      />
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handleSubmit} style={styles.buttonBack}>
+            <Icon name="angle-left" size={35} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.nomeMercado}>{mercadoInfo.nome}</Text>
+        </View>
 
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Voltar</Text>
-      </TouchableOpacity>
+        <FlatList
+          style={styles.list}
+          data={produtos}
+          renderItem={({ item }) => <ProdutoResumo produto={item} />}
+          keyExtractor={item => item.id.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={doRefresh}
+            />
+          }
+        />
+      </View>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: "#455a64"
   },
 
-  button: {
-    height: 20,
-    width: '100%',
-    backgroundColor: '#455a64',
-    justifyContent: 'center',
+  content: {
+    backgroundColor: "#ffffff",
+    height: '100%'
+  },
+
+  header: {
+    flexDirection: 'row',
+    height: 50,
     alignItems: 'center',
-    borderRadius: 2,
-    marginTop: 15
+    borderBottomColor: '#333',
+    borderBottomWidth: 2,
+    backgroundColor: "#455a64"
+  },
+
+  nomeMercado: {
+    fontSize: 20,
+    color: "#fff",
+  },
+
+  buttonBack: {
+    paddingLeft: 10,
+    paddingRight: 20
   },
 
   buttonText: {
