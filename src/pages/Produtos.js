@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar,
-  AsyncStorage, StyleSheet, FlatList, RefreshControl
+  StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
 import api from '../services/api';
 import ProdutoResumo from '../components/ProdutoResumo';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Produtos({ navigation }) {
   const [produtos, setProdutos] = useState([]);
@@ -23,13 +23,13 @@ export default function Produtos({ navigation }) {
 
   async function handleSubmit() {
     navigation.navigate('Supermercados');
-  };
+  }
 
 
   async function doRefresh(mercado) {
     setRefreshing(true);
 
-    const response = await api.get('/Produto/Lista/' + (mercado || mercadoInfo.id));
+    const response = await api.get(`/Produto/Lista/${mercado || mercadoInfo.id}`);
 
     setProdutos(response.data);
 
@@ -38,7 +38,7 @@ export default function Produtos({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#000000"></StatusBar>
+      <StatusBar backgroundColor="#000000" />
 
       <View style={styles.content}>
         <View style={styles.header}>
@@ -52,13 +52,13 @@ export default function Produtos({ navigation }) {
           style={styles.list}
           data={produtos}
           renderItem={({ item }) => <ProdutoResumo produto={item} />}
-          keyExtractor={item => item.id.toString()}
-          refreshControl={
+          keyExtractor={(item) => item.id.toString()}
+          refreshControl={(
             <RefreshControl
               refreshing={refreshing}
               onRefresh={doRefresh}
             />
-          }
+          )}
         />
       </View>
 
@@ -69,12 +69,12 @@ export default function Produtos({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#455a64"
+    backgroundColor: '#455a64',
   },
 
   content: {
-    backgroundColor: "#ffffff",
-    height: '100%'
+    backgroundColor: '#ffffff',
+    height: '100%',
   },
 
   header: {
@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: '#333',
     borderBottomWidth: 2,
-    backgroundColor: "#455a64"
+    backgroundColor: '#455a64',
   },
 
   nomeMercado: {
     fontSize: 20,
-    color: "#fff",
+    color: '#fff',
   },
 
   buttonBack: {
     paddingLeft: 10,
-    paddingRight: 20
+    paddingRight: 20,
   },
 
   buttonText: {
