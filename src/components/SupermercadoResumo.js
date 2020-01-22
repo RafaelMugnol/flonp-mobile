@@ -10,9 +10,9 @@ function SupermercadoResumo({ navigation, mercado }) {
     return "https://storageprojmerc.blob.core.windows.net/mercados/" + mercado.nomeImagem;
   }
 
-  async function handleMercado() {
+  function handleClick() {
     navigation.navigate('Produtos', {
-      mercaodInfo: {
+      mercadoInfo: {
         id: mercado.id,
         nome: mercado.nome
       }
@@ -21,7 +21,7 @@ function SupermercadoResumo({ navigation, mercado }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.areaClicavel} onPress={handleMercado} >
+      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick} >
         <View style={styles.linha}>
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 

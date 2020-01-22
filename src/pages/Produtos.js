@@ -15,7 +15,7 @@ export default function Produtos({ navigation }) {
 
 
   useEffect(() => {
-    const mercado = navigation.getParam('mercaodInfo', 'Produtos');
+    const mercado = navigation.getParam('mercadoInfo');
     setMercadoInfo(mercado);
     doRefresh(mercado.id);
   }, []);

@@ -32,6 +32,7 @@ export default function Login({ navigation }) {
       const { nome, accessToken, refreshToken } = response.data;
 
       await AsyncStorage.setItem('usuarioNome', nome);
+      await AsyncStorage.setItem('email', email);
       await AsyncStorage.setItem('accessToken', accessToken);
       await AsyncStorage.setItem('refreshToken', refreshToken);
 

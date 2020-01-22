@@ -13,6 +13,7 @@ import Favoritos from './pages/Favoritos';
 
 import Supermercados from './pages/Supermercados';
 import Produtos from './pages/Produtos';
+import ProdutoDetalhe from './pages/ProdutoDetalhe';
 
 import Pesquisa from './pages/Pesquisa';
 
@@ -37,7 +38,8 @@ const FavoritosTab = createStackNavigator(
 const PrincipalTab = createStackNavigator(
   {
     Supermercados,
-    Produtos
+    Produtos,
+    ProdutoDetalhe
   },
   {
     defaultNavigationOptions: {
@@ -52,11 +54,7 @@ const PesquisaTab = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#455a64',
-      },
-      headerTintColor: '#fff',
-      title: 'Pesquisa',
+      headerShown: false
     },
   }
 );

@@ -67,14 +67,16 @@ function ProdutoResumo({ navigation, produto }) {
     return "";
   }
 
-  async function handleProduto() {
-
+  function handleClick() {
+    navigation.navigate('ProdutoDetalhe', {
+      produtoId: produto.id
+    });
 
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.areaClicavel} onPress={handleProduto} >
+      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick} >
         <View style={styles.linha}>
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 
