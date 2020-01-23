@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar,
-  AsyncStorage, StyleSheet, FlatList, RefreshControl, Image
+  StyleSheet, Image,
 } from 'react-native';
 
-import api from '../services/api';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import api from '../services/api';
 
 export default function ProdutoDetalhe({ navigation }) {
   const [produto, setProduto] = useState({});
@@ -15,23 +15,23 @@ export default function ProdutoDetalhe({ navigation }) {
   }, []);
 
   async function carregaProduto(id) {
-    const response = await api.get('/ProdutoWeb/' + id);
+    const response = await api.get(`/ProdutoWeb/${id}`);
 
     setProduto(response.data);
   }
 
   function urlImage() {
-    if (produto.nomeImagem)
-      return "https://storageprojmerc.blob.core.windows.net/produtos/" + produto.nomeImagem;
+    if (produto.nomeImagem) { return `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}`; }
+    return '';
   }
 
   function handleBack() {
     navigation.navigate('Produtos');
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#000000"></StatusBar>
+      <StatusBar backgroundColor="#000000" />
 
       <View style={styles.content}>
         <View style={styles.header}>
@@ -42,7 +42,8 @@ export default function ProdutoDetalhe({ navigation }) {
         </View>
 
         <View style={styles.linhaImagem}>
-          <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
+          {produto.nomeImagem
+            && <Image style={styles.thumbnail} source={{ uri: urlImage() }} />}
         </View>
 
         <Text>{produto.nome}</Text>
@@ -59,7 +60,6 @@ export default function ProdutoDetalhe({ navigation }) {
         {/* Mostrar o mercado */}
 
 
-
       </View>
 
     </SafeAreaView>
@@ -69,12 +69,12 @@ export default function ProdutoDetalhe({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#455a64"
+    backgroundColor: '#455a64',
   },
 
   content: {
-    backgroundColor: "#ffffff",
-    height: '100%'
+    backgroundColor: '#ffffff',
+    height: '100%',
   },
 
   header: {
@@ -83,17 +83,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: '#333',
     borderBottomWidth: 2,
-    backgroundColor: "#455a64"
+    backgroundColor: '#455a64',
   },
 
   nomeProduto: {
     fontSize: 20,
-    color: "#fff",
+    color: '#fff',
   },
 
   buttonBack: {
     paddingLeft: 10,
-    paddingRight: 20
+    paddingRight: 20,
   },
 
   buttonText: {
@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     resizeMode: 'cover',
-    borderRadius: 5
+    borderRadius: 5,
   },
 
   linhaImagem: {
     marginTop: 12,
     alignItems: 'center',
-  }
+  },
 });

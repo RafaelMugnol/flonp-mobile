@@ -12,18 +12,13 @@ function ProdutoResumo({ navigation, produto }) {
 
   function AbreviacaoUnidadeMedida(codigo) {
     switch (codigo) {
-      case 1:
-        return 'UN';
-      case 2:
-        return 'KG';
-      case 3:
-        return 'G';
-      case 4:
-        return 'L';
-      case 5:
-        return 'ML';
-      case 6:
-        return 'M';
+      case 1: return 'UN';
+      case 2: return 'KG';
+      case 3: return 'G';
+      case 4: return 'L';
+      case 5: return 'ML';
+      case 6: return 'M';
+      default: return '';
     }
   }
 
@@ -84,10 +79,16 @@ function ProdutoResumo({ navigation, produto }) {
             <Text style={styles.nomeProduto}>{descricaoNome()}</Text>
 
             <Text style={styles.valor}>{valorFinalProduto()}</Text>
+            
+            <View style={styles.linha}>
+              {produto.campanha &&
+                <Text style={styles.promocao}>{textoPromocao()}</Text>
+              }
 
-            {produto.campanha &&
-              <Text style={styles.promocao}>{textoPromocao()}</Text>
-            }
+              {produto.MercadoNome &&
+                <Text style={styles.mercadoNome}>{produto.MercadoNome}</Text>
+              }
+            </View>
           </View>
         </View>
 
@@ -129,13 +130,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  mercadoNome: {
+    marginTop: 4
+
+  },
+
   promocao: {
     // backgroundColor: '#ff5f5f',
     alignSelf: 'flex-start',
     padding: 3,
     borderRadius: 5,
     borderColor: '#d31f1f',
-    borderWidth: 2
+    borderWidth: 2,
+    marginRight: 15
   },
 
   thumbnail: {

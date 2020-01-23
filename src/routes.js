@@ -22,7 +22,7 @@ import Configuracoes from './pages/Configuracoes';
 
 const FavoritosTab = createStackNavigator(
   {
-    Favoritos
+    Favoritos,
   },
   {
     defaultNavigationOptions: {
@@ -32,36 +32,37 @@ const FavoritosTab = createStackNavigator(
       headerTintColor: '#fff',
       title: 'Favoritos',
     },
-  }
+  },
 );
 
 const PrincipalTab = createStackNavigator(
   {
     Supermercados,
     Produtos,
-    ProdutoDetalhe
+    ProdutoDetalhe,
   },
   {
     defaultNavigationOptions: {
-      headerShown: false
+      headerShown: false,
     },
-  }
+  },
 );
 
 const PesquisaTab = createStackNavigator(
   {
-    Pesquisa
+    Pesquisa,
+    ProdutoDetalhe,
   },
   {
     defaultNavigationOptions: {
-      headerShown: false
+      headerShown: false,
     },
-  }
+  },
 );
 
 const ConfiguracoesTab = createStackNavigator(
   {
-    Configuracoes
+    Configuracoes,
   },
   {
     defaultNavigationOptions: {
@@ -71,7 +72,7 @@ const ConfiguracoesTab = createStackNavigator(
       headerTintColor: '#fff',
       title: 'Configurações',
     },
-  }
+  },
 );
 
 const TabsPrincipais = createBottomTabNavigator(
@@ -83,35 +84,33 @@ const TabsPrincipais = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        return <Icon name={"ios-" + getIconTab(navigation.state.routeName)} size={30} color={tintColor} />;
-      },
-      tabBarLabel: ({ tintColor }) => {
-        return <Text style={{ fontSize: 10, color: tintColor }}>{getLabelTab(navigation.state.routeName)}</Text>;
-      }
+      tabBarIcon: ({ focused, horizontal, tintColor }) => <Icon name={`ios-${getIconTab(navigation.state.routeName)}`} size={30} color={tintColor} />,
+      tabBarLabel: ({ tintColor }) => <Text style={{ fontSize: 10, color: tintColor }}>{getLabelTab(navigation.state.routeName)}</Text>,
     }),
     tabBarOptions: {
       activeTintColor: '#455a64',
       inactiveTintColor: '#aaa',
     },
-  }
+  },
 );
 
 function getIconTab(tab) {
   switch (tab) {
-    case "FavoritosTab": return "star";
-    case "PrincipalTab": return "home";
-    case "PesquisaTab": return "search";
-    case "ConfiguracoesTab": return "settings";
+    case 'FavoritosTab': return 'star';
+    case 'PrincipalTab': return 'home';
+    case 'PesquisaTab': return 'search';
+    case 'ConfiguracoesTab': return 'settings';
+    default: return '';
   }
 }
 
 function getLabelTab(tab) {
   switch (tab) {
-    case "FavoritosTab": return "Favoritos";
-    case "PrincipalTab": return "Supermercados";
-    case "PesquisaTab": return "Pesquisa";
-    case "ConfiguracoesTab": return "Configurações";
+    case 'FavoritosTab': return 'Favoritos';
+    case 'PrincipalTab': return 'Supermercados';
+    case 'PesquisaTab': return 'Pesquisa';
+    case 'ConfiguracoesTab': return 'Configurações';
+    default: return '';
   }
 }
 

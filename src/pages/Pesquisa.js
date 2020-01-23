@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, SafeAreaView, StatusBar,
-  AsyncStorage, StyleSheet, FlatList, RefreshControl
+  AsyncStorage, StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,9 +14,12 @@ export default function Pesquisa({ navigation }) {
   const [produtos, setProdutos] = useState([]);
 
   async function handleSearch() {
-    const response = await api.get('/Produto/Lista/' + 1);
+    setProdutos([]);
+    if (nomePesquisar) {
+      const response = await api.get(`/Produto/Pesquisa?palavraChave=${nomePesquisar}`);
 
-    setProdutos(response.data);
+      setProdutos(response.data);
+    }
   }
 
   function ConteudoPesquisa() {
@@ -26,14 +29,16 @@ export default function Pesquisa({ navigation }) {
           style={styles.list}
           data={produtos}
           renderItem={({ item }) => <ProdutoResumo produto={item} />}
-          keyExtractor={item => item.id.toString()}
-        />);
+          keyExtractor={(item) => item.id.toString()}
+        />
+      );
     }
-    else {
-      return (<View style={styles.semProduto}>
+
+    return (
+      <View style={styles.semProduto}>
         <Text style={styles.textoSemProduto}>Nenhum produto encontrado.</Text>
-      </View>);
-    }
+      </View>
+    );
   }
 
   return (
@@ -67,12 +72,12 @@ export default function Pesquisa({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#455a64"
+    backgroundColor: '#455a64',
   },
 
   content: {
-    backgroundColor: "#ffffff",
-    height: '100%'
+    backgroundColor: '#ffffff',
+    height: '100%',
   },
 
   input: {
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     width: '85%',
     marginTop: 12,
     marginBottom: 4,
-    borderRadius: 2
+    borderRadius: 2,
   },
 
   campoPesquisa: {
