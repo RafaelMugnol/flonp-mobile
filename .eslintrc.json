@@ -26,6 +26,10 @@
         "functions": false,
         "variables": false
       }
-    ]
+    ],
+    
+    "curly": [ "error", "multi-or-nest" ],
+    "nonblock-statement-body-position": [ "error", "below" ],
+    "no-param-reassign": ["error", { "props": false }]
   }
 }

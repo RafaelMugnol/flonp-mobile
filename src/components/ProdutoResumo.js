@@ -1,77 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import {
+  View, StyleSheet, Text, Image, TouchableOpacity,
+} from 'react-native';
+
+import { unidadeAbreviada } from '../helpers/unidades';
+import { enumTipoCampanha } from '../helpers/tipoCampanha';
+import { formataPreco } from '../helpers/convercoes';
 
 function ProdutoResumo({ navigation, produto }) {
-
-
   function urlImage() {
     if (produto.nomeImagem)
-      return "https://storageprojmerc.blob.core.windows.net/produtos/" + produto.nomeImagem;
-  }
-
-  function AbreviacaoUnidadeMedida(codigo) {
-    switch (codigo) {
-      case 1: return 'UN';
-      case 2: return 'KG';
-      case 3: return 'G';
-      case 4: return 'L';
-      case 5: return 'ML';
-      case 6: return 'M';
-      default: return '';
-    }
+      return `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}`;
+    return '';
   }
 
   function descricaoNome() {
-    return produto.nome + ' - ' + produto.quantidadeEmbalagem + AbreviacaoUnidadeMedida(produto.unidade);
-  }
-
-  function converteNumero(valor, casasDecimais) {
-    if (!casasDecimais)
-      casasDecimais = 0;
-
-    return parseFloat(valor).toFixed(casasDecimais).replace('.', ',');
+    return `${produto.nome} - ${produto.quantidadeEmbalagem}${unidadeAbreviada(produto.unidade)}`;
   }
 
   function valorFinalProduto() {
-    let valor = produto.valor;
+    let { valor } = produto;
 
     if (produto.campanha)
       valor = produto.campanha.valor;
 
-    return 'R$ ' + converteNumero(valor, 2)
+    return formataPreco(valor, 2);
   }
 
   function textoPromocao() {
     if (produto.campanha) {
       switch (produto.campanha.tipo) {
-        case 0:
-          return "Oferta!";
-        case 1:
+        case enumTipoCampanha.SIMPLES:
+          return 'Oferta!';
+        case enumTipoCampanha.QUANTIDADES_MIN_MAX:
           if (produto.campanha.quantidadeMinima == null)
-            return "Até " + produto.campanha.quantidadeMaxima + " itens";
+            return `Até ${produto.campanha.quantidadeMaxima} itens`;
           if (produto.campanha.quantidadeMaxima == null)
-            return "Acima de " + produto.campanha.quantidadeMinima + " itens";
-          else
-            return "De " + produto.campanha.quantidadeMinima + " a " + produto.campanha.quantidadeMaxima + " itens";
-        case 2:
-          return "Leve " + produto.campanha.quantidadeLeve + " e pague " + produto.campanha.quantidadePague;
+            return `Acima de ${produto.campanha.quantidadeMinima} itens`;
+          return `De ${produto.campanha.quantidadeMinima} a ${produto.campanha.quantidadeMaxima} itens`;
+        case enumTipoCampanha.LEVE_PAGUE:
+          return `Leve ${produto.campanha.quantidadeLeve} e pague ${produto.campanha.quantidadePague}`;
+        default: return '';
       }
     }
 
-    return "";
+    return '';
   }
+
 
   function handleClick() {
     navigation.navigate('ProdutoDetalhe', {
-      produtoId: produto.id
+      produtoId: produto.id,
     });
+  }
 
-  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick} >
+      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick}>
         <View style={styles.linha}>
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 
@@ -79,15 +66,13 @@ function ProdutoResumo({ navigation, produto }) {
             <Text style={styles.nomeProduto}>{descricaoNome()}</Text>
 
             <Text style={styles.valor}>{valorFinalProduto()}</Text>
-            
-            <View style={styles.linha}>
-              {produto.campanha &&
-                <Text style={styles.promocao}>{textoPromocao()}</Text>
-              }
 
-              {produto.MercadoNome &&
-                <Text style={styles.mercadoNome}>{produto.MercadoNome}</Text>
-              }
+            <View style={styles.linha}>
+              {produto.campanha
+                && <Text style={styles.promocao}>{textoPromocao()}</Text>}
+
+              {produto.MercadoNome
+                && <Text style={styles.mercadoNome}>{produto.MercadoNome}</Text>}
             </View>
           </View>
         </View>
@@ -122,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 16,
-    height: 40
+    height: 40,
   },
 
   valor: {
@@ -131,7 +116,7 @@ const styles = StyleSheet.create({
   },
 
   mercadoNome: {
-    marginTop: 4
+    marginTop: 4,
 
   },
 
@@ -142,7 +127,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#d31f1f',
     borderWidth: 2,
-    marginRight: 15
+    marginRight: 15,
   },
 
   thumbnail: {
