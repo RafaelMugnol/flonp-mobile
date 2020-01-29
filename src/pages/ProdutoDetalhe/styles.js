@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
 
+  ampulheta: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   buttonText: {
     color: '#FFF',
     fontWeight: 'bold',
@@ -86,6 +92,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  precoComCampanha: {
+    fontSize: 20,
+    textDecorationLine: 'line-through',
+  },
+
+  descricaoMercado: {
+    fontSize: 18,
+  },
+
+  nomeMercado: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
   descricaoValor: {
     fontSize: 15,
   },
@@ -100,6 +120,30 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
 
+  contentCampanha: {
+    padding: 5,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderColor: '#d31f1f',
+    borderWidth: 3,
+  },
+
+  viewInternalPrecoCampanha: {
+    backgroundColor: '#229954',
+    borderRadius: 5,
+    padding: 5,
+  },
+
+  descricaoOferta: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  descricaoPosPrecoOferta: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignItems: 'flex-end',
+  },
 });
 
 export default styles;

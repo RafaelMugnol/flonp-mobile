@@ -12,7 +12,7 @@ function ProdutoResumo({ navigation, produto }) {
   function urlImage() {
     if (produto.nomeImagem)
       return `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}`;
-    return '';
+    return undefined;
   }
 
   function descricaoNome() {
@@ -71,8 +71,8 @@ function ProdutoResumo({ navigation, produto }) {
               {produto.campanha
                 && <Text style={styles.promocao}>{textoPromocao()}</Text>}
 
-              {produto.MercadoNome
-                && <Text style={styles.mercadoNome}>{produto.MercadoNome}</Text>}
+              {produto.mercadoNome
+                && <Text style={styles.mercadoNome}>{produto.mercadoNome}</Text>}
             </View>
           </View>
         </View>
