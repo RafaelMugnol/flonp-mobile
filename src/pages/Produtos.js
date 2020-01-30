@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../services/api';
 import ProdutoResumo from '../components/ProdutoResumo';
 
@@ -21,10 +22,15 @@ export default function Produtos({ navigation }) {
   }, []);
 
 
-  async function handleSubmit() {
-    navigation.navigate('Supermercados');
+  function handleSubmit() {
+    navigation.goBack();
   }
 
+  function handleOpenMercado() {
+    navigation.navigate('SupermercadoDetalhe', {
+      supermercadoId: mercadoInfo.id,
+    });
+  }
 
   async function doRefresh(mercado) {
     setRefreshing(true);
@@ -45,7 +51,10 @@ export default function Produtos({ navigation }) {
           <TouchableOpacity onPress={handleSubmit} style={styles.buttonBack}>
             <Icon name="angle-left" size={35} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.nomeMercado}>{mercadoInfo.nome}</Text>
+          <TouchableOpacity onPress={handleOpenMercado} style={styles.acaoMercadoInfo}>
+            <Text style={styles.nomeMercado}>{mercadoInfo.nome}</Text>
+            <MaterialIcon name="info-outline" size={25} color="#fff" />
+          </TouchableOpacity>
         </View>
 
         <FlatList
@@ -104,5 +113,11 @@ const styles = StyleSheet.create({
 
   list: {
     width: '100%',
+  },
+
+  acaoMercadoInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '85%',
   },
 });

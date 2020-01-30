@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, TouchableOpacity, SafeAreaView, StatusBar,
-  AsyncStorage, StyleSheet, FlatList, RefreshControl
+  View, SafeAreaView, StatusBar,
+  StyleSheet, FlatList, RefreshControl,
 } from 'react-native';
 
 import api from '../services/api';
 
 import SupermercadoResumo from '../components/SupermercadoResumo';
 
-export default function Supermercados({ navigation }) {
+export default function Supermercados() {
   const [mercados, setMercados] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -29,20 +29,20 @@ export default function Supermercados({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
 
       <View style={styles.content}>
         <FlatList
           style={styles.list}
           data={mercados}
           renderItem={({ item }) => <SupermercadoResumo mercado={item} />}
-          keyExtractor={item => item.id.toString()}
-          refreshControl={
+          keyExtractor={(item) => item.id.toString()}
+          refreshControl={(
             <RefreshControl
               refreshing={refreshing}
               onRefresh={doRefresh}
             />
-          }
+          )}
         />
       </View>
     </SafeAreaView>
@@ -52,13 +52,13 @@ export default function Supermercados({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#455a64",
+    backgroundColor: '#455a64',
   },
 
   content: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     height: '100%',
   },
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2,
-    marginTop: 15
+    marginTop: 15,
   },
 
   buttonText: {

@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import {
+  View, StyleSheet, Text, Image, TouchableOpacity,
+} from 'react-native';
 
 function SupermercadoResumo({ navigation, mercado }) {
-
   // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
 
   function urlImage() {
-    return "https://storageprojmerc.blob.core.windows.net/mercados/" + mercado.nomeImagem;
+    return `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}`;
   }
 
   function handleClick() {
     navigation.navigate('Produtos', {
       mercadoInfo: {
         id: mercado.id,
-        nome: mercado.nome
-      }
+        nome: mercado.nome,
+      },
     });
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick} >
+      <TouchableOpacity style={styles.areaClicavel} onPress={handleClick}>
         <View style={styles.linha}>
           <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
 

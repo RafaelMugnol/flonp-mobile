@@ -13,6 +13,7 @@ import Favoritos from './pages/Favoritos';
 
 import Supermercados from './pages/Supermercados';
 import Produtos from './pages/Produtos';
+import SupermercadoDetalhe from './pages/SupermercadoDetalhe';
 import ProdutoDetalhe from './pages/ProdutoDetalhe';
 
 import Pesquisa from './pages/Pesquisa';
@@ -38,6 +39,7 @@ const FavoritosTab = createStackNavigator(
 const PrincipalTab = createStackNavigator(
   {
     Supermercados,
+    SupermercadoDetalhe,
     Produtos,
     ProdutoDetalhe,
   },
@@ -52,6 +54,7 @@ const PesquisaTab = createStackNavigator(
   {
     Pesquisa,
     ProdutoDetalhe,
+    SupermercadoDetalhe,
   },
   {
     defaultNavigationOptions: {

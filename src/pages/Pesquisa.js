@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, SafeAreaView, StatusBar,
-  AsyncStorage, StyleSheet, FlatList, RefreshControl,
+  View, Text, TextInput, TouchableOpacity, SafeAreaView,
+  StyleSheet, FlatList,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,7 +9,7 @@ import api from '../services/api';
 import ProdutoResumo from '../components/ProdutoResumo';
 
 
-export default function Pesquisa({ navigation }) {
+export default function Pesquisa() {
   const [nomePesquisar, setNomePesquisar] = useState('');
   const [produtos, setProdutos] = useState([]);
 

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#455a64',
   },
 
-  nomeProdutoHeader: {
+  nomeMercadoHeader: {
     fontSize: 20,
     color: '#fff',
   },
@@ -143,15 +143,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     alignItems: 'flex-end',
-  },
-
-  viewNomeMercado: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-
-  iconeInfo: {
-    marginLeft: 10,
   },
 });
 

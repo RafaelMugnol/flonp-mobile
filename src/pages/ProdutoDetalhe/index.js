@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 import styles from './styles';
 
@@ -55,8 +56,14 @@ export default function ProdutoDetalhe({ navigation }) {
     return '';
   }
 
+  function handleOpenMercado() {
+    navigation.navigate('SupermercadoDetalhe', {
+      supermercadoId: produto.mercadoId,
+    });
+  }
+
   function handleBack() {
-    navigation.navigate('Produtos');
+    navigation.goBack();
   }
 
   return (
@@ -116,10 +123,15 @@ export default function ProdutoDetalhe({ navigation }) {
                 </View>
               )}
 
-              <Text>
+              <View style={styles.viewNomeMercado}>
                 <Text style={styles.descricaoMercado}>Supermercado: </Text>
-                <Text style={styles.nomeMercado}>{produto.mercadoNome}</Text>
-              </Text>
+                <TouchableOpacity onPress={handleOpenMercado} style={styles.viewNomeMercado}>
+                  <Text style={styles.nomeMercado}>
+                    {produto.mercadoNome}
+                  </Text>
+                  <MaterialIcon name="info-outline" size={18} style={styles.iconeInfo} />
+                </TouchableOpacity>
+              </View>
 
               {produto.quantidadeMinima
                 && (
