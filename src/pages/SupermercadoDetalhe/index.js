@@ -27,6 +27,15 @@ export default function SupermercadoDetalhe({ navigation }) {
     return undefined;
   }
 
+  function textoCep() {
+    let { cep } = mercado;
+
+    if (cep.length > 5)
+      cep = `${cep.slice(0, 5)}-${cep.slice(5, cep.length)}`;
+
+    return `CEP ${cep}`;
+  }
+
   function handleBack() {
     navigation.goBack();
   }
@@ -57,12 +66,15 @@ export default function SupermercadoDetalhe({ navigation }) {
             </View>
 
             <View style={styles.informacoes}>
-              <Text>
-                <Text style={styles.nome}>{mercado.nome}</Text>
-              </Text>
 
-              <Text style={styles.marca}>{mercado.marca}</Text>
+              <Text style={styles.nome}>{mercado.nome}</Text>
 
+              <View style={styles.informacoesEndereco}>
+                <Text style={styles.informacaoEndereco}>{mercado.cidade}</Text>
+                <Text style={styles.informacaoEndereco}>{mercado.bairro}</Text>
+                <Text style={styles.informacaoEndereco}>{`${mercado.endereco} - ${mercado.numero}`}</Text>
+                <Text style={styles.informacaoEndereco}>{textoCep()}</Text>
+              </View>
             </View>
 
           </View>

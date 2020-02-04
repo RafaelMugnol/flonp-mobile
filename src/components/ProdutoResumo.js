@@ -78,8 +78,6 @@ function ProdutoResumo({ navigation, produto }) {
         </View>
 
       </TouchableOpacity>
-
-      <View style={styles.divisor} />
     </View>
   );
 }
@@ -88,13 +86,6 @@ const styles = StyleSheet.create({
   areaClicavel: {
     flex: 1,
     padding: 10,
-  },
-
-  divisor: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#cccccc',
-    marginLeft: 10,
-    marginRight: 10,
   },
 
   descricao: {
@@ -117,11 +108,9 @@ const styles = StyleSheet.create({
 
   mercadoNome: {
     marginTop: 4,
-
   },
 
   promocao: {
-    // backgroundColor: '#ff5f5f',
     alignSelf: 'flex-start',
     padding: 3,
     borderRadius: 5,

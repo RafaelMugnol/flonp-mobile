@@ -35,8 +35,6 @@ function SupermercadoResumo({ navigation, mercado }) {
         </View>
 
       </TouchableOpacity>
-
-      <View style={styles.divisor} />
     </View>
   );
 }
@@ -47,13 +45,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  divisor: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#cccccc',
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
   descricao: {
     marginLeft: 15,
   },
@@ -62,10 +53,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 16,
-  },
-
-  texto: {
-
   },
 
   thumbnail: {

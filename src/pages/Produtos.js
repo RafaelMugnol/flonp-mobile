@@ -42,6 +42,10 @@ export default function Produtos({ navigation }) {
     setRefreshing(false);
   }
 
+  const renderSeparator = () => (
+    <View style={styles.divisor} />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#000000" />
@@ -62,6 +66,7 @@ export default function Produtos({ navigation }) {
           data={produtos}
           renderItem={({ item }) => <ProdutoResumo produto={item} />}
           keyExtractor={(item) => item.id.toString()}
+          ItemSeparatorComponent={renderSeparator}
           refreshControl={(
             <RefreshControl
               refreshing={refreshing}
@@ -119,5 +124,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '85%',
+  },
+
+  divisor: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#cccccc',
+    marginLeft: 10,
+    marginRight: 10,
   },
 });

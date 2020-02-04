@@ -22,22 +22,24 @@ export default function Pesquisa() {
     }
   }
 
-  function ConteudoPesquisa() {
-    if (produtos.length > 0) {
-      return (
-        <FlatList
-          style={styles.list}
-          data={produtos}
-          renderItem={({ item }) => <ProdutoResumo produto={item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      );
-    }
+  const renderSeparator = () => (
+    <View style={styles.divisor} />
+  );
 
+  function ConteudoPesquisa() {
     return (
-      <View style={styles.semProduto}>
-        <Text style={styles.textoSemProduto}>Nenhum produto encontrado.</Text>
-      </View>
+      <FlatList
+        style={styles.list}
+        data={produtos}
+        renderItem={({ item }) => <ProdutoResumo produto={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        ItemSeparatorComponent={renderSeparator}
+        ListEmptyComponent={(
+          <View style={styles.semProduto}>
+            <Text style={styles.textoSemProduto}>Nenhum produto encontrado.</Text>
+          </View>
+        )}
+      />
     );
   }
 
@@ -114,5 +116,12 @@ const styles = StyleSheet.create({
 
   list: {
     width: '100%',
+  },
+
+  divisor: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#cccccc',
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
