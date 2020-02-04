@@ -57,7 +57,7 @@ export default function Produtos({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity onPress={handleOpenMercado} style={styles.acaoMercadoInfo}>
             <Text style={styles.nomeMercado}>{mercadoInfo.nome}</Text>
-            <MaterialIcon name="info-outline" size={25} color="#fff" />
+            <MaterialIcon style={styles.iconeInfoMercado} name="info-outline" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -121,9 +121,13 @@ const styles = StyleSheet.create({
   },
 
   acaoMercadoInfo: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '85%',
+  },
+
+  iconeInfoMercado: {
+    marginRight: 10
   },
 
   divisor: {
