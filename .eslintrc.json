@@ -30,6 +30,7 @@
     
     "curly": [ "error", "multi-or-nest" ],
     "nonblock-statement-body-position": [ "error", "below" ],
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    "import/no-extraneous-dependencies": 0
   }
 }

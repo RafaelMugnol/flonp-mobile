@@ -25,9 +25,13 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-  buttonBack: {
+  buttonIcon: {
     paddingLeft: 10,
     paddingRight: 20,
+  },
+
+  buttonStar: {
+    marginLeft: 'auto',
   },
 
   ampulheta: {
@@ -63,6 +67,15 @@ const styles = StyleSheet.create({
 
   informacaoEndereco: {
     fontSize: 18,
+  },
+
+  map: {
+    height: 250,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#999',
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 

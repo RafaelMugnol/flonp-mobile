@@ -3,15 +3,26 @@ import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar, Image,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import MapView, { Marker } from 'react-native-maps';
+
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import api from '../../services/api';
 import styles from './styles';
 
 export default function SupermercadoDetalhe({ navigation }) {
   const [mercado, setMercado] = useState({});
+  const [mercadoFavorito, setMercadoFavorito] = useState(false);
+  const [currentRegion, setCurrentRegion] = useState(null);
 
   useEffect(() => {
     carregaMercado(navigation.getParam('supermercadoId'));
+
+    setCurrentRegion({
+      latitude: -29.2244444,
+      longitude: -51.3466667,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
   }, []);
 
   async function carregaMercado(id) {
@@ -40,21 +51,35 @@ export default function SupermercadoDetalhe({ navigation }) {
     navigation.goBack();
   }
 
+  function handleFavoritar() {
+    setMercadoFavorito(!mercadoFavorito);
+  }
+
+  function handleRegionChanged(region) {
+    setCurrentRegion(region);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#000000" />
 
       <View style={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.buttonBack}>
-            <Icon name="angle-left" size={35} color="#fff" />
+          <TouchableOpacity onPress={handleBack} style={styles.buttonIcon}>
+            <FontAwesome name="angle-left" size={35} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.nomeMercadoHeader}>{mercado.nome}</Text>
+          <TouchableOpacity
+            onPress={handleFavoritar}
+            style={[styles.buttonIcon, styles.buttonStar]}
+          >
+            <Ionicons name={mercadoFavorito ? 'ios-star' : 'ios-star-outline'} size={30} color="#e6b800" />
+          </TouchableOpacity>
         </View>
 
         {!mercado.nome && (
           <View style={styles.ampulheta}>
-            <Icon name="hourglass" size={70} color="#bbb" />
+            <FontAwesome name="hourglass" size={70} color="#bbb" />
           </View>
         )}
 
@@ -77,6 +102,20 @@ export default function SupermercadoDetalhe({ navigation }) {
               </View>
             </View>
 
+            <MapView
+              onRegionChangeComplete={handleRegionChanged}
+              initialRegion={currentRegion}
+              mapType="hybrid"
+              style={styles.map}
+            >
+              <Marker
+                coordinate={{
+                  latitude: -29.2244444,
+                  longitude: -51.3466667,
+                }}
+                title={mercado.nome}
+              />
+            </MapView>
           </View>
         )}
       </View>

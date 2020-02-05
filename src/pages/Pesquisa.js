@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, SafeAreaView,
-  StyleSheet, FlatList,
+  StyleSheet, FlatList, Keyboard,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +14,7 @@ export default function Pesquisa() {
   const [produtos, setProdutos] = useState([]);
 
   async function handleSearch() {
+    Keyboard.dismiss();
     setProdutos([]);
     if (nomePesquisar) {
       const response = await api.get(`/Produto/Pesquisa?palavraChave=${nomePesquisar}`);
