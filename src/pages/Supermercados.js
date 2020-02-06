@@ -5,10 +5,11 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Foundation } from '@expo/vector-icons';
 import api from '../services/api';
 import SupermercadoResumo from '../components/SupermercadoResumo';
 
-export default function Supermercados() {
+export default function Supermercados({ navigation }) {
   const [mercados, setMercados] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [nomePesquisar, setNomePesquisar] = useState('');
@@ -29,12 +30,17 @@ export default function Supermercados() {
   }
 
   async function handleSearch() {
+
     /* setProdutos([]);
     if (nomePesquisar) {
       const response = await api.get(`/Produto/Pesquisa?palavraChave=${nomePesquisar}`);
 
       setProdutos(response.data);
     } */
+  }
+
+  function handleMap() {
+    navigation.navigate('SupermercadosMapa');
   }
 
   const renderSeparator = () => (
@@ -61,6 +67,9 @@ export default function Supermercados() {
           ItemSeparatorComponent={renderSeparator}
           ListHeaderComponent={(
             <View style={styles.campoPesquisa}>
+              <TouchableOpacity onPress={handleMap} style={styles.buttonMap}>
+                <Foundation name="map" size={25} color="#DDD" />
+              </TouchableOpacity>
               <TextInput
                 style={styles.input}
                 placeholder="Pesuisar supermercado"
@@ -71,9 +80,11 @@ export default function Supermercados() {
                 onChangeText={setNomePesquisar}
                 onSubmitEditing={handleSearch}
               />
-              <TouchableOpacity onPress={handleSearch} style={styles.buttonSearch}>
-                <Icon name="search" size={25} color="#888" />
-              </TouchableOpacity>
+              <View style={styles.buttonSearch}>
+                <TouchableOpacity onPress={handleSearch}>
+                  <Icon name="search" size={25} color="#888" />
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -118,30 +129,51 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
+    borderRadius: 2,
     paddingHorizontal: 10,
+    borderRightWidth: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
     fontSize: 16,
     color: '#444',
     height: 40,
-    width: '85%',
-    marginTop: 12,
-    marginBottom: 4,
-    borderRadius: 2,
+    width: '73%',
   },
 
   campoPesquisa: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
   },
 
   buttonSearch: {
-    paddingLeft: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 2,
+    borderLeftWidth: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   divisor: {
     borderBottomWidth: 2,
     borderBottomColor: '#cccccc',
     marginLeft: 10,
+    marginRight: 10,
+  },
+
+  buttonMap: {
+    backgroundColor: '#455a64',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 2,
+    width: 40,
+    height: 40,
     marginRight: 10,
   },
 });
