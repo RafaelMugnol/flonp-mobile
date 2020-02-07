@@ -27,9 +27,18 @@ export default function SupermercadoDetalhe({ navigation }) {
 
   async function carregaMercado(id) {
     // Sem a barra dava problema para pegar o mercado de id 1
-    const response = await api.get(`/Mercado/${id}/`);
+    const { data } = await api.get(`/Mercado/${id}/`);
 
-    setMercado(response.data);
+    if (data.latitude !== 0 && data.longitude !== 0) {
+      setCurrentRegion({
+        latitude: data.latitude,
+        longitude: data.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+
+    setMercado(data);
   }
 
   function urlImage() {
@@ -102,20 +111,22 @@ export default function SupermercadoDetalhe({ navigation }) {
               </View>
             </View>
 
-            <MapView
-              onRegionChangeComplete={handleRegionChanged}
-              initialRegion={currentRegion}
-              mapType="hybrid"
-              style={styles.map}
-            >
-              <Marker
-                coordinate={{
-                  latitude: -29.2244444,
-                  longitude: -51.3466667,
-                }}
-                title={mercado.nome}
-              />
-            </MapView>
+            {mercado.latitude !== 0 && mercado.longitude !== 0 && (
+              <MapView
+                onRegionChangeComplete={handleRegionChanged}
+                initialRegion={currentRegion}
+                mapType="hybrid"
+                style={styles.map}
+              >
+                <Marker
+                  coordinate={{
+                    latitude: mercado.latitude,
+                    longitude: mercado.longitude,
+                  }}
+                  title={mercado.nome}
+                />
+              </MapView>
+            )}
           </View>
         )}
       </View>

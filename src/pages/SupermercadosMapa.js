@@ -1,20 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar,
-  StyleSheet, FlatList, RefreshControl,
+  StyleSheet, Image,
 } from 'react-native';
 
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 import { FontAwesome } from '@expo/vector-icons';
 import api from '../services/api';
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 export default function SupermercadosMapa({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
+  const [mercados, setMercados] = useState([]);
+  const prevCurrentRegion = usePrevious(currentRegion);
 
   useEffect(() => {
     loadPage();
+
+    return function cleanup() {
+      // console.log('cleanup');
+    };
   }, []);
+
+  useEffect(() => {
+    // para carregar os mercados somente uma vez
+    if (prevCurrentRegion === null)
+      loadMercados();
+  }, [currentRegion]);
 
   async function loadPage() {
     await loadInitialPosition();
@@ -31,19 +51,25 @@ export default function SupermercadosMapa({ navigation }) {
 
       const { latitude, longitude } = coords;
 
+      // const latitude = -29.19450149596465;
+      // const longitude = -51.34827117925442;
+
       setCurrentRegion({
         latitude,
         longitude,
         latitudeDelta: 0.04,
         longitudeDelta: 0.04,
       });
+    } else {
+      // exibir mensagem que não possui permissão para pegar a localização
     }
   }
 
   async function loadMercados() {
     if (currentRegion) {
-      //
-      //
+      const { data } = await api.get('/Mercado/ListaParaMapa');
+
+      setMercados(data);
     }
   }
 
@@ -53,6 +79,23 @@ export default function SupermercadosMapa({ navigation }) {
 
   function handleRegionChanged(region) {
     setCurrentRegion(region);
+  }
+
+  function urlImage(mercado) {
+    if (mercado.nomeImagem)
+      return `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}`;
+    return undefined;
+  }
+
+  function goToProdutos(mercado) {
+    return () => {
+      navigation.navigate('Produtos', {
+        mercadoInfo: {
+          id: mercado.id,
+          nome: mercado.nome,
+        },
+      });
+    };
   }
 
   return (
@@ -78,7 +121,31 @@ export default function SupermercadosMapa({ navigation }) {
             onRegionChangeComplete={handleRegionChanged}
             initialRegion={currentRegion}
             style={styles.map}
-          />
+          >
+            {mercados.map((merc) => (
+              <Marker
+                key={merc.id}
+                coordinate={{
+                  longitude: merc.longitude,
+                  latitude: merc.latitude,
+                }}
+              >
+                <View style={styles.avatarBorda}>
+                  <Image
+                    style={styles.avatar}
+                    source={{ uri: urlImage(merc) }}
+                  />
+                </View>
+
+                <Callout onPress={goToProdutos(merc)}>
+                  <View style={styles.callout}>
+                    <Text style={styles.mercadoNome}>{merc.nome}</Text>
+                    <Text style={styles.irParaProdutos}>Ver produtos</Text>
+                  </View>
+                </Callout>
+              </Marker>
+            ))}
+          </MapView>
         )}
 
       </View>
@@ -153,4 +220,29 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+
+  avatar: {
+    width: 50,
+    height: 50,
+  },
+
+  avatarBorda: {
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#BBB',
+  },
+
+  callout: {
+    width: 150,
+  },
+
+  mercadoNome: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  irParaProdutos: {
+    fontStyle: 'italic',
+  },
+
 });
