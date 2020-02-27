@@ -3,7 +3,7 @@ import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar, Image,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 import styles from './styles';
@@ -14,6 +14,7 @@ import { enumTipoCampanha } from '../../helpers/tipoCampanha';
 
 export default function ProdutoDetalhe({ navigation }) {
   const [produto, setProduto] = useState({});
+  const [favorito, setFavorito] = useState(false);
 
   useEffect(() => {
     carregaProduto(navigation.getParam('produtoId'));
@@ -21,9 +22,11 @@ export default function ProdutoDetalhe({ navigation }) {
 
   async function carregaProduto(id) {
     // Sem a barra dava problema para pegar o produto de id 1
-    const response = await api.get(`/Produto/${id}/`);
+    const { data } = await api.get(`/Produto/${id}/`);
 
-    setProduto(response.data);
+    setFavorito(data.favorito);
+
+    setProduto(data);
   }
 
   function urlImage() {
@@ -62,6 +65,15 @@ export default function ProdutoDetalhe({ navigation }) {
     });
   }
 
+  function handleFavoritar() {
+    api.post('/Produto/AlterarFavorito', {
+      produtoId: produto.id,
+      favoritar: !favorito,
+    });
+
+    setFavorito(!favorito);
+  }
+
   function handleBack() {
     navigation.goBack();
   }
@@ -72,15 +84,21 @@ export default function ProdutoDetalhe({ navigation }) {
 
       <View style={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.buttonBack}>
-            <Icon name="angle-left" size={35} color="#fff" />
+          <TouchableOpacity onPress={handleBack} style={styles.buttonIcon}>
+            <FontAwesome name="angle-left" size={35} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.nomeProdutoHeader}>{produto.nome}</Text>
+          <TouchableOpacity
+            onPress={handleFavoritar}
+            style={[styles.buttonIcon, styles.buttonStar]}
+          >
+            <Ionicons name={favorito ? 'ios-star' : 'ios-star-outline'} size={30} color="#e6b800" />
+          </TouchableOpacity>
         </View>
 
         {!produto.nome && (
           <View style={styles.ampulheta}>
-            <Icon name="hourglass" size={70} color="#bbb" />
+            <FontAwesome name="hourglass" size={70} color="#bbb" />
           </View>
         )}
 

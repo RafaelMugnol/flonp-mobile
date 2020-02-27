@@ -25,9 +25,13 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-  buttonBack: {
+  buttonIcon: {
     paddingLeft: 10,
     paddingRight: 20,
+  },
+
+  buttonStar: {
+    marginLeft: 'auto',
   },
 
   ampulheta: {

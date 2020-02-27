@@ -39,6 +39,7 @@ export default function SupermercadoDetalhe({ navigation }) {
     }
 
     setMercado(data);
+    setMercadoFavorito(data.favorito);
   }
 
   function urlImage() {
@@ -61,6 +62,11 @@ export default function SupermercadoDetalhe({ navigation }) {
   }
 
   function handleFavoritar() {
+    api.post('/Mercado/AlterarFavorito', {
+      mercadoId: mercado.id,
+      favoritar: !mercadoFavorito,
+    });
+
     setMercadoFavorito(!mercadoFavorito);
   }
 

@@ -28,11 +28,7 @@ const FavoritosTab = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#455a64',
-      },
-      headerTintColor: '#fff',
-      title: 'Favoritos',
+      headerShown: false,
     },
   },
 );
