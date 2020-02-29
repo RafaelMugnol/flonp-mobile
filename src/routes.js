@@ -25,6 +25,9 @@ import Configuracoes from './pages/Configuracoes';
 const FavoritosTab = createStackNavigator(
   {
     Favoritos,
+    Produtos,
+    ProdutoDetalhe,
+    SupermercadoDetalhe,
   },
   {
     defaultNavigationOptions: {
@@ -85,8 +88,18 @@ const TabsPrincipais = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => <Icon name={`ios-${getIconTab(navigation.state.routeName)}`} size={30} color={tintColor} />,
-      tabBarLabel: ({ tintColor }) => <Text style={{ fontSize: 10, color: tintColor }}>{getLabelTab(navigation.state.routeName)}</Text>,
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name={`ios-${getIconTab(navigation.state.routeName)}`}
+          size={30}
+          color={tintColor}
+        />
+      ),
+      tabBarLabel: ({ tintColor }) => (
+        <Text style={{ fontSize: 10, color: tintColor }}>
+          {getLabelTab(navigation.state.routeName)}
+        </Text>
+      ),
     }),
     tabBarOptions: {
       activeTintColor: '#455a64',

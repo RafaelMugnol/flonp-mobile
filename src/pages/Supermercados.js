@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, SafeAreaView, StatusBar, TextInput,
+  View, SafeAreaView, StatusBar, TextInput, Text,
   StyleSheet, FlatList, RefreshControl, TouchableOpacity,
 } from 'react-native';
 
@@ -22,21 +22,11 @@ export default function Supermercados({ navigation }) {
   async function doRefresh() {
     setRefreshing(true);
 
-    const response = await api.get('/Mercado/Lista');
+    const response = await api.get(`/Mercado/Lista?palavraChave=${nomePesquisar}`);
 
     setMercados(response.data);
 
     setRefreshing(false);
-  }
-
-  async function handleSearch() {
-
-    /* setProdutos([]);
-    if (nomePesquisar) {
-      const response = await api.get(`/Produto/Pesquisa?palavraChave=${nomePesquisar}`);
-
-      setProdutos(response.data);
-    } */
   }
 
   function handleMap() {
@@ -65,6 +55,11 @@ export default function Supermercados({ navigation }) {
             />
           )}
           ItemSeparatorComponent={renderSeparator}
+          ListEmptyComponent={(
+            <View style={styles.semDados}>
+              <Text style={styles.textoSemDados}>Nenhum supermercado encontrado.</Text>
+            </View>
+          )}
           ListHeaderComponent={(
             <View style={styles.campoPesquisa}>
               <TouchableOpacity onPress={handleMap} style={styles.buttonMap}>
@@ -78,10 +73,10 @@ export default function Supermercados({ navigation }) {
                 autoCorrect={false}
                 value={nomePesquisar}
                 onChangeText={setNomePesquisar}
-                onSubmitEditing={handleSearch}
+                onSubmitEditing={doRefresh}
               />
               <View style={styles.buttonSearch}>
-                <TouchableOpacity onPress={handleSearch}>
+                <TouchableOpacity onPress={doRefresh}>
                   <Icon name="search" size={25} color="#888" />
                 </TouchableOpacity>
               </View>
@@ -176,4 +171,14 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
   },
+
+  semDados: {
+    alignItems: 'center',
+    marginTop: 30,
+  },
+
+  textoSemDados: {
+    fontWeight: 'bold',
+  },
+
 });

@@ -59,7 +59,7 @@ export default function Favoritos() {
         ItemSeparatorComponent={renderSeparator}
         ListEmptyComponent={(
           <View style={styles.semDados}>
-            <Text style={styles.textoDados}>Nenhum supermercado favorito.</Text>
+            <Text style={styles.textoSemDados}>Nenhum supermercado favorito.</Text>
           </View>
         )}
         refreshControl={(

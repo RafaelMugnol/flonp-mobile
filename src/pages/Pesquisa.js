@@ -12,6 +12,7 @@ import ProdutoResumo from '../components/ProdutoResumo';
 export default function Pesquisa() {
   const [nomePesquisar, setNomePesquisar] = useState('');
   const [produtos, setProdutos] = useState([]);
+  const [semPalavraChave, setSemPalavraChave] = useState(true);
 
   async function handleSearch() {
     Keyboard.dismiss();
@@ -21,6 +22,8 @@ export default function Pesquisa() {
 
       setProdutos(response.data);
     }
+
+    setSemPalavraChave(nomePesquisar === '');
   }
 
   const renderSeparator = () => (
@@ -37,7 +40,11 @@ export default function Pesquisa() {
         ItemSeparatorComponent={renderSeparator}
         ListEmptyComponent={(
           <View style={styles.semProduto}>
-            <Text style={styles.textoSemProduto}>Nenhum produto encontrado.</Text>
+            <Text style={styles.textoSemProduto}>
+              {semPalavraChave
+                ? 'Digite o nome do produto desejado.'
+                : 'Nenhum produto encontrado.'}
+            </Text>
           </View>
         )}
       />

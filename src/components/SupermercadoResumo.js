@@ -4,6 +4,7 @@ import {
   View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
 
+
 function SupermercadoResumo({ navigation, mercado }) {
   // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
 
@@ -12,6 +13,20 @@ function SupermercadoResumo({ navigation, mercado }) {
   }
 
   function handleClick() {
+    // Tentando deixar que quando clicar no mercado na aba favorito ele
+    // aparecesse na aba supermercados, mas fica co o ultimo aberto
+
+    // const mercadoInfo = {
+    //   id: mercado.id,
+    //   nome: mercado.nome,
+    // };
+
+    // navigation.dispatch(StackActions.reset({
+
+    //   key: 1,
+    //   actions: [NavigationActions.navigate({ routeName: 'Produtos', params: { mercadoInfo } })],
+    // }));
+
     navigation.navigate('Produtos', {
       mercadoInfo: {
         id: mercado.id,

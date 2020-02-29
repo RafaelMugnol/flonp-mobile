@@ -1,32 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { View, AsyncStorage, KeyboardAvoidingView, Platform, Text, TextInput, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import {
+  View, AsyncStorage, KeyboardAvoidingView, Platform, Text,
+  TextInput, Image, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator,
+} from 'react-native';
 
+import { sha256 } from 'js-sha256';
 import api from '../services/api';
 
 import logo from '../assets/logo.png';
-import { sha256 } from 'js-sha256';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [menssagemErro, setMenssagemErro] = useState('');
+  const [processando, setProcessando] = useState(false);
 
   // Realiza essa ação ao abrir a tela, como o array de dependencias (segundo parâmetro) está vazio
   useEffect(() => {
-    AsyncStorage.getItem('accessToken').then(accessToken => {
-      if (accessToken && accessToken !== '') {
+    AsyncStorage.getItem('accessToken').then((accessToken) => {
+      if (accessToken && accessToken !== '')
         navigation.navigate('PrincipalTab');
-      }
-    })
+    });
   }, []);
 
   async function handleSubmit() {
+    setMenssagemErro('');
+    setProcessando(true);
+
     const response = await api.post('/AccountCliente/Login', {
       email,
       accessKey: sha256(senha).toUpperCase(),
-      grantType: "password"
+      grantType: 'password',
     });
 
     const { authenticated } = response.data;
+
+    setProcessando(false);
 
     if (authenticated) {
       const { nome, accessToken, refreshToken } = response.data;
@@ -37,16 +46,13 @@ export default function Login({ navigation }) {
       await AsyncStorage.setItem('refreshToken', refreshToken);
 
       navigation.navigate('PrincipalTab');
-    }
-    else {
-      console.log("Erro no login");
-      // Mostrar erro]
-    }
+    } else
+      setMenssagemErro(response.data.message);
   }
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
-      <StatusBar barStyle="dark-content"></StatusBar>
+      <StatusBar barStyle="dark-content" />
       <Image style={styles.logo} source={logo} />
 
       <View style={styles.form}>
@@ -67,12 +73,18 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="Senha"
           placeholderTextColor="#999"
-          secureTextEntry={true}
+          secureTextEntry
           autoCapitalize="none"
           autoCorrect={false}
           value={senha}
           onChangeText={setSenha}
         />
+
+        <View style={styles.viewInfo}>
+          {menssagemErro !== '' && <Text style={styles.errorText}>{menssagemErro}</Text>}
+          {processando && <ActivityIndicator />}
+        </View>
+
 
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
@@ -90,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   form: {
@@ -113,7 +125,7 @@ const styles = StyleSheet.create({
     color: '#444',
     height: 44,
     marginBottom: 20,
-    borderRadius: 2
+    borderRadius: 2,
   },
 
   button: {
@@ -138,5 +150,16 @@ const styles = StyleSheet.create({
   signup: {
     alignItems: 'center',
     marginTop: 25,
+  },
+
+  viewInfo: {
+    alignItems: 'center',
+    marginBottom: 20,
+    height: 15,
+  },
+
+  errorText: {
+    color: '#d31f1f',
+    fontWeight: 'bold',
   },
 });

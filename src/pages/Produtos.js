@@ -8,9 +8,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../services/api';
 import ProdutoResumo from '../components/ProdutoResumo';
+import ProdutoCategoria from '../components/ProdutoCategoria';
 
 export default function Produtos({ navigation }) {
   const [produtos, setProdutos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [mercadoInfo, setMercadoInfo] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,16 +37,44 @@ export default function Produtos({ navigation }) {
   async function doRefresh(mercado) {
     setRefreshing(true);
 
-    const response = await api.get(`/Produto/Lista/${mercado || mercadoInfo.id}`);
+    const { data } = await api.get(`/Produto/Lista/${mercado || mercadoInfo.id}`);
 
-    setProdutos(response.data);
+    const listaProdutos = [];
+    const listaCategorias = [];
+    let ultimaCategoria = -1;
+    let indice = 0;
+
+    data.forEach((produto) => {
+      if (produto.categoria !== ultimaCategoria) {
+        ultimaCategoria = produto.categoria;
+
+        if (listaProdutos.length > 0)
+          listaProdutos[listaProdutos.length - 1].ultimoDaCategoria = true;
+
+        listaProdutos.push({ itemCategoria: true, categoria: ultimaCategoria, index: indice });
+        listaCategorias.push(indice++);
+      }
+
+      produto.index = indice;
+      listaProdutos.push(produto);
+      indice++;
+    });
+
+    setProdutos(listaProdutos);
+    setCategorias(listaCategorias);
 
     setRefreshing(false);
   }
 
-  const renderSeparator = () => (
-    <View style={styles.divisor} />
-  );
+  const renderSeparator = ({ leadingItem }) => {
+    if (leadingItem.itemCategoria || leadingItem.ultimoDaCategoria)
+      return null;
+
+    return (
+      <View style={styles.divisor} />
+    );
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,9 +94,14 @@ export default function Produtos({ navigation }) {
         <FlatList
           style={styles.list}
           data={produtos}
-          renderItem={({ item }) => <ProdutoResumo produto={item} />}
-          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            item.itemCategoria
+              ? <ProdutoCategoria categoria={item.categoria} />
+              : <ProdutoResumo produto={item} />
+          )}
+          keyExtractor={(item) => item.index.toString()}
           ItemSeparatorComponent={renderSeparator}
+          stickyHeaderIndices={categorias}
           refreshControl={(
             <RefreshControl
               refreshing={refreshing}
@@ -127,7 +162,7 @@ const styles = StyleSheet.create({
   },
 
   iconeInfoMercado: {
-    marginRight: 10
+    marginRight: 10,
   },
 
   divisor: {

@@ -1,15 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-param-reassign */
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+import NavigationService from './navigationService';
+
+const baseURLApi = 'https://projemerc.azurewebsites.net/api';
 
 const api = axios.create({
-  baseURL: 'https://projemerc.azurewebsites.net/api',
+  baseURL: baseURLApi,
 });
 
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('accessToken');
-  if (token && token !== '') { config.headers.Authorization = `Bearer ${token}`; }
+
+  if (token && token !== '')
+    config.headers.Authorization = `Bearer ${token}`;
 
   return config;
 });
@@ -18,8 +22,10 @@ api.interceptors.response.use((response) => response, async (error) => {
   const originalRequest = error.config;
 
   if (error.response.status === 401 && originalRequest.url
-    === 'http://13.232.130.60:8081/v1/auth/token') {
-    // redireciona para o login
+    === `${baseURLApi}/AccountCliente/Login`) {
+    await AsyncStorage.setItem('accessToken', '');
+    NavigationService.navigate('Login');
+
     return Promise.reject(error);
   }
 
@@ -28,7 +34,7 @@ api.interceptors.response.use((response) => response, async (error) => {
     const refreshTokenOld = await AsyncStorage.getItem('refreshToken');
     const email = await AsyncStorage.getItem('email');
 
-    return axios.post('https://projemerc.azurewebsites.net/api/AccountCliente/Login',
+    return axios.post(`${baseURLApi}/AccountCliente/Login`,
       {
         grantType: 'refresh_token',
         refreshToken: refreshTokenOld,
