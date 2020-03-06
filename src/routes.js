@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 import Favoritos from './pages/Favoritos';
 
@@ -20,7 +21,19 @@ import ProdutoDetalhe from './pages/ProdutoDetalhe';
 import Pesquisa from './pages/Pesquisa';
 
 import Configuracoes from './pages/Configuracoes';
+import Perfil from './pages/Perfil';
 
+const LoginStack = createStackNavigator(
+  {
+    Login,
+    SignUp,
+  },
+  {
+    defaultNavigationOptions: {
+      headerShown: false,
+    },
+  },
+);
 
 const FavoritosTab = createStackNavigator(
   {
@@ -67,6 +80,7 @@ const PesquisaTab = createStackNavigator(
 const ConfiguracoesTab = createStackNavigator(
   {
     Configuracoes,
+    Perfil,
   },
   {
     defaultNavigationOptions: {
@@ -75,6 +89,7 @@ const ConfiguracoesTab = createStackNavigator(
       },
       headerTintColor: '#fff',
       title: 'Configurações',
+      headerBackTitle: 'Voltar',
     },
   },
 );
@@ -129,7 +144,7 @@ function getLabelTab(tab) {
 }
 
 const routes = createSwitchNavigator({
-  Login,
+  LoginStack,
   TabsPrincipais,
 });
 

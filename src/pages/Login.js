@@ -50,6 +50,11 @@ export default function Login({ navigation }) {
       setMenssagemErro(response.data.message);
   }
 
+  function handleSignUp() {
+    navigation.navigate('SignUp');
+  }
+
+
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -90,7 +95,7 @@ export default function Login({ navigation }) {
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.signup}>
+        <TouchableOpacity onPress={handleSignUp} style={styles.signup}>
           <Text>Não possui cadastro? Clique aqui.</Text>
         </TouchableOpacity>
       </View>
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
   viewInfo: {
     alignItems: 'center',
     marginBottom: 20,
-    height: 15,
+    height: 16,
   },
 
   errorText: {
