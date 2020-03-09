@@ -22,6 +22,8 @@ import Pesquisa from './pages/Pesquisa';
 
 import Configuracoes from './pages/Configuracoes';
 import Perfil from './pages/Perfil';
+import RedefinicaoSenha from './pages/RedefinicaoSenha';
+import SugestaoSupermercado from './pages/SugestaoSupermercado';
 
 const LoginStack = createStackNavigator(
   {
@@ -81,6 +83,8 @@ const ConfiguracoesTab = createStackNavigator(
   {
     Configuracoes,
     Perfil,
+    RedefinicaoSenha,
+    SugestaoSupermercado,
   },
   {
     defaultNavigationOptions: {

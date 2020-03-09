@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View, KeyboardAvoidingView, Platform, Text, ScrollView,
   ActivityIndicator, TouchableOpacity, StyleSheet,
 } from 'react-native';
 
+import { sha256 } from 'js-sha256';
 import CampoTexto from '../components/CampoTexto';
-import InputPhone from '../components/InputPhone';
 import api from '../services/api';
 
-export default function Perfil({ navigation }) {
+export default function RedefinicaoSenha({ navigation }) {
   const [dados, setDados] = useState({
-    email: '',
-    nome: '',
-    telefone: '',
+    senhaAntiga: '',
+    senhaNova: '',
+    senhaNovaConfirmacao: '',
   });
-
-  useEffect(() => {
-    setDados(navigation.getParam('dados'));
-  }, []);
 
   const [menssagemErro, setMenssagemErro] = useState('');
   const [processando, setProcessando] = useState(false);
@@ -34,24 +30,29 @@ export default function Perfil({ navigation }) {
       setMenssagemErro('');
       setProcessando(true);
 
-      await api.post('/AccountCliente/Atualizar', {
-        nome: dados.nome,
-        telefone: dados.telefone,
+      const response = await api.post('/AccountCliente/RedefinirSenha', {
+        senhaAntiga: sha256(dados.senhaAntiga),
+        senhaNova: sha256(dados.senhaNova),
       });
 
-      navigation.goBack();
-      navigation.state.params.onGoBack(dados);
+      if (response.data.valido)
+        navigation.goBack();
+      else
+        setMenssagemErro(response.data.mensagem);
 
       setProcessando(false);
     }
   }
 
   function valida() {
-    if (dados.nome === '')
-      return 'Informe seu nome.';
+    if (dados.senhaAntiga === '' || dados.senhaNova === '')
+      return 'Informe as senhas.';
 
-    if (dados.telefone.length < 10)
-      return 'Informe seu celular.';
+    if (dados.senhaNova.length < 6)
+      return 'A senha deve ser acima de 6 caracteres.';
+
+    if (dados.senhaNova !== dados.senhaNovaConfirmacao)
+      return 'As novas senhas não são iguais.';
 
     return null;
   }
@@ -62,30 +63,30 @@ export default function Perfil({ navigation }) {
 
       <ScrollView style={styles.form}>
 
-        <Text style={styles.cadastro}>Perfil</Text>
+        <Text style={styles.cadastro}>Redefinir senha</Text>
 
         <CampoTexto
-          label="E-mail"
-          value={dados.email}
-          onChangeText={(value) => setDado(value, 'email')}
-          maxLength={50}
-          keyboardType="email-address"
-          editable={false}
-          color="#aaa"
+          label="Senha antiga"
+          value={dados.senhaAntiga}
+          onChangeText={(value) => setDado(value, 'senhaAntiga')}
+          maxLength={30}
+          secureTextEntry
         />
 
         <CampoTexto
-          label="Nome"
-          value={dados.nome}
-          onChangeText={(value) => setDado(value, 'nome')}
-          maxLength={50}
-          autoCapitalize="words"
+          label="Senha nova"
+          value={dados.senhaNova}
+          onChangeText={(value) => setDado(value, 'senhaNova')}
+          maxLength={30}
+          secureTextEntry
         />
 
-        <InputPhone
-          label="Celular"
-          value={dados.telefone}
-          onChangeText={(value) => setDado(value, 'telefone')}
+        <CampoTexto
+          label="Senha nova confirmação"
+          value={dados.senhaNovaConfirmacao}
+          onChangeText={(value) => setDado(value, 'senhaNovaConfirmacao')}
+          maxLength={30}
+          secureTextEntry
         />
 
         <View style={styles.viewInfo}>

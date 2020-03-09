@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View, KeyboardAvoidingView, Platform, Text, ScrollView,
   ActivityIndicator, TouchableOpacity, StyleSheet,
@@ -8,16 +8,13 @@ import CampoTexto from '../components/CampoTexto';
 import InputPhone from '../components/InputPhone';
 import api from '../services/api';
 
-export default function Perfil({ navigation }) {
+export default function SugestaoSupermercado({ navigation }) {
   const [dados, setDados] = useState({
-    email: '',
     nome: '',
+    cidade: '',
+    endereco: '',
     telefone: '',
   });
-
-  useEffect(() => {
-    setDados(navigation.getParam('dados'));
-  }, []);
 
   const [menssagemErro, setMenssagemErro] = useState('');
   const [processando, setProcessando] = useState(false);
@@ -34,13 +31,9 @@ export default function Perfil({ navigation }) {
       setMenssagemErro('');
       setProcessando(true);
 
-      await api.post('/AccountCliente/Atualizar', {
-        nome: dados.nome,
-        telefone: dados.telefone,
-      });
+      await api.post('/MercadoSugerido', dados);
 
       navigation.goBack();
-      navigation.state.params.onGoBack(dados);
 
       setProcessando(false);
     }
@@ -48,10 +41,10 @@ export default function Perfil({ navigation }) {
 
   function valida() {
     if (dados.nome === '')
-      return 'Informe seu nome.';
+      return 'Informe o nome do supermercado.';
 
-    if (dados.telefone.length < 10)
-      return 'Informe seu celular.';
+    if (dados.cidade === '')
+      return 'Informe a cidade do supermercado.';
 
     return null;
   }
@@ -62,28 +55,37 @@ export default function Perfil({ navigation }) {
 
       <ScrollView style={styles.form}>
 
-        <Text style={styles.cadastro}>Perfil</Text>
+        <Text style={{ marginBottom: 10 }}>
+          Informe ao menos o nome e a cidade do supermercado que deseja sugerir,
+          para que possamos entrar em contato:
+        </Text>
 
         <CampoTexto
-          label="E-mail"
-          value={dados.email}
-          onChangeText={(value) => setDado(value, 'email')}
-          maxLength={50}
-          keyboardType="email-address"
-          editable={false}
-          color="#aaa"
-        />
-
-        <CampoTexto
-          label="Nome"
+          label="Nome*"
           value={dados.nome}
           onChangeText={(value) => setDado(value, 'nome')}
           maxLength={50}
           autoCapitalize="words"
         />
 
+        <CampoTexto
+          label="Cidade*"
+          value={dados.cidade}
+          onChangeText={(value) => setDado(value, 'cidade')}
+          maxLength={30}
+          autoCapitalize="words"
+        />
+
+        <CampoTexto
+          label="Emdereço"
+          value={dados.endereco}
+          onChangeText={(value) => setDado(value, 'endereco')}
+          maxLength={50}
+          autoCapitalize="words"
+        />
+
         <InputPhone
-          label="Celular"
+          label="Telefone"
           value={dados.telefone}
           onChangeText={(value) => setDado(value, 'telefone')}
         />
@@ -94,7 +96,7 @@ export default function Perfil({ navigation }) {
         </View>
 
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-          <Text style={styles.buttonText}>Confirmar</Text>
+          <Text style={styles.buttonText}>Enviar sugestão</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -175,11 +177,5 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#d31f1f',
     fontWeight: 'bold',
-  },
-
-  cadastro: {
-    color: '#455a64',
-    fontSize: 35,
-    marginBottom: 15,
   },
 });

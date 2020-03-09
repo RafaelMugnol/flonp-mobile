@@ -26,8 +26,21 @@ export default function Configuracoes({ navigation }) {
     navigation.navigate('Login');
   }
 
-  async function handleEdit() {
-    navigation.navigate('Perfil', { dados: dadosUsuario });
+  function handleEdit() {
+    navigation.navigate('Perfil', {
+      dados: dadosUsuario,
+      onGoBack(dadosStualizados) {
+        setDadosUsuario(dadosStualizados);
+      },
+    });
+  }
+
+  function handleRedefinirSenha() {
+    navigation.navigate('RedefinicaoSenha');
+  }
+
+  function handleSugestaoSupermercado() {
+    navigation.navigate('SugestaoSupermercado');
   }
 
   function getMascaraTelefone(texto) {
@@ -92,8 +105,8 @@ export default function Configuracoes({ navigation }) {
       <View style={styles.divisor} />
 
       <Botao label="Editar perfil" icon="edit" handler={handleEdit} componentIcon={FontAwesome} />
-      <Botao label="Redefinir senha" icon="key" componentIcon={FontAwesome} />
-      <Botao label="Sugerir supermercado" icon="shop" componentIcon={Entypo} />
+      <Botao label="Redefinir senha" icon="key" handler={handleRedefinirSenha} componentIcon={FontAwesome} />
+      <Botao label="Sugerir supermercado" icon="shop" handler={handleSugestaoSupermercado} componentIcon={Entypo} />
       <Botao label="Sair" icon="sign-out" handler={handleLogout} componentIcon={FontAwesome} />
 
       <Text style={styles.versao}>{`Versão ${Constants.manifest.version}`}</Text>
