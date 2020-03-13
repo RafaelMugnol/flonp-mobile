@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, AsyncStorage, KeyboardAvoidingView, Platform, Text,
+  View, AsyncStorage, KeyboardAvoidingView, Platform, Text, Alert,
   TextInput, Image, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator,
 } from 'react-native';
 
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import { sha256 } from 'js-sha256';
-import api from '../services/api';
 
+import api from '../services/api';
 import logo from '../assets/logo.png';
 
 export default function Login({ navigation }) {
@@ -24,13 +26,23 @@ export default function Login({ navigation }) {
   }, []);
 
   async function handleSubmit() {
+    // alert('No notification permissions!');
+    // Alert.alert('Alert Title', 'My Alert Msg');
+
     setMenssagemErro('');
     setProcessando(true);
+
+    let pushToken = null;
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+
+    if (status === 'granted')
+      pushToken = await Notifications.getExpoPushTokenAsync();
 
     const response = await api.post('/AccountCliente/Login', {
       email,
       accessKey: sha256(senha).toUpperCase(),
       grantType: 'password',
+      pushToken,
     });
 
     const { authenticated } = response.data;

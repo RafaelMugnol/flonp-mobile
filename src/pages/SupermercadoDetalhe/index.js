@@ -8,6 +8,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import api from '../../services/api';
 import styles from './styles';
+import semImagem from '../../assets/semImagem.png';
 
 export default function SupermercadoDetalhe({ navigation }) {
   const [mercado, setMercado] = useState({});
@@ -44,8 +45,8 @@ export default function SupermercadoDetalhe({ navigation }) {
 
   function urlImage() {
     if (mercado.nomeImagem)
-      return `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}`;
-    return undefined;
+      return { uri: `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}` };
+    return semImagem;
   }
 
   function textoCep() {
@@ -101,8 +102,7 @@ export default function SupermercadoDetalhe({ navigation }) {
         {mercado.nome && (
           <View>
             <View style={styles.linhaImagem}>
-              {mercado.nomeImagem
-                && <Image style={styles.thumbnail} source={{ uri: urlImage() }} />}
+              <Image style={styles.thumbnail} source={urlImage()} />
             </View>
 
             <View style={styles.informacoes}>

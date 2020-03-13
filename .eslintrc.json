@@ -33,6 +33,7 @@
     "no-param-reassign": 0,
     "import/no-extraneous-dependencies": 0,
     "no-plusplus": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "max-len": ["error", { "code": 120 }]
   }
 }

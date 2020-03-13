@@ -4,12 +4,15 @@ import {
   View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
 
+import semImagem from '../assets/semImagem.png';
 
 function SupermercadoResumo({ navigation, mercado }) {
   // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
 
   function urlImage() {
-    return `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}`;
+    if (mercado.nomeImagem)
+      return { uri: `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}` };
+    return semImagem;
   }
 
   function handleClick() {
@@ -39,7 +42,7 @@ function SupermercadoResumo({ navigation, mercado }) {
     <View style={styles.container}>
       <TouchableOpacity style={styles.areaClicavel} onPress={handleClick}>
         <View style={styles.linha}>
-          <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
+          <Image style={styles.thumbnail} source={urlImage()} />
 
           <View style={styles.descricao}>
             <Text style={styles.nomeMercado}>{mercado.nome}</Text>

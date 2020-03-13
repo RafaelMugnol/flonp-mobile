@@ -7,6 +7,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 import styles from './styles';
+import semImagem from '../../assets/semImagem.png';
 
 import { unidadeAbreviada } from '../../helpers/unidades';
 import { formataPreco, formataData } from '../../helpers/convercoes';
@@ -31,8 +32,8 @@ export default function ProdutoDetalhe({ navigation }) {
 
   function urlImage() {
     if (produto.nomeImagem)
-      return `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}`;
-    return undefined;
+      return { uri: `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}` };
+    return semImagem;
   }
 
   function qtdeEmbalagem() {
@@ -105,8 +106,7 @@ export default function ProdutoDetalhe({ navigation }) {
         {produto.nome && (
           <View>
             <View style={styles.linhaImagem}>
-              {produto.nomeImagem
-                && <Image style={styles.thumbnail} source={{ uri: urlImage() }} />}
+              <Image style={styles.thumbnail} source={urlImage()} />
             </View>
 
             <View style={styles.informacoes}>
@@ -172,6 +172,14 @@ export default function ProdutoDetalhe({ navigation }) {
                   <Text style={{ marginTop: 8 }}>
                     <Text style={styles.descricaoValor}>Validade do produto: </Text>
                     <Text style={styles.conteudoValor}>{formataData(produto.validade)}</Text>
+                  </Text>
+                )}
+
+              {produto.campanha
+                && (
+                  <Text style={{ marginTop: 8 }}>
+                    <Text style={styles.descricaoValor}>Oferta valida até: </Text>
+                    <Text style={styles.conteudoValor}>{formataData(produto.campanha.dataFim)}</Text>
                   </Text>
                 )}
 

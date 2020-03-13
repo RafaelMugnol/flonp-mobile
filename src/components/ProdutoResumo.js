@@ -4,6 +4,8 @@ import {
   View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
 
+import semImagem from '../assets/semImagem.png';
+
 import { unidadeAbreviada } from '../helpers/unidades';
 import { enumTipoCampanha } from '../helpers/tipoCampanha';
 import { formataPreco } from '../helpers/convercoes';
@@ -11,8 +13,8 @@ import { formataPreco } from '../helpers/convercoes';
 function ProdutoResumo({ navigation, produto }) {
   function urlImage() {
     if (produto.nomeImagem)
-      return `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}`;
-    return undefined;
+      return { uri: `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}` };
+    return semImagem;
   }
 
   function descricaoNome() {
@@ -60,7 +62,7 @@ function ProdutoResumo({ navigation, produto }) {
     <View style={styles.container}>
       <TouchableOpacity style={styles.areaClicavel} onPress={handleClick}>
         <View style={styles.linha}>
-          <Image style={styles.thumbnail} source={{ uri: urlImage() }} />
+          <Image style={styles.thumbnail} source={urlImage()} />
 
           <View style={styles.descricao}>
             <Text style={styles.nomeProduto}>{descricaoNome()}</Text>
