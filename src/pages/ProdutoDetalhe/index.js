@@ -14,12 +14,12 @@ import { unidadeAbreviada } from '../../helpers/unidades';
 import { formataPreco, formataData } from '../../helpers/convercoes';
 import { enumTipoCampanha } from '../../helpers/tipoCampanha';
 
-export default function ProdutoDetalhe({ navigation }) {
+export default function ProdutoDetalhe({ route, navigation }) {
   const [produto, setProduto] = useState({});
   const [favorito, setFavorito] = useState(false);
 
   useEffect(() => {
-    carregaProduto(navigation.getParam('produtoId'));
+    carregaProduto(route.params.produtoId);
   }, []);
 
   async function carregaProduto(id) {

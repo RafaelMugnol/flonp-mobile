@@ -10,19 +10,17 @@ import api from '../services/api';
 import ProdutoResumo from '../components/ProdutoResumo';
 import ProdutoCategoria from '../components/ProdutoCategoria';
 
-export default function Produtos({ navigation }) {
+export default function Produtos({ route, navigation }) {
   const [produtos, setProdutos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [mercadoInfo, setMercadoInfo] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-
   useEffect(() => {
-    const mercado = navigation.getParam('mercadoInfo');
+    const mercado = route.params.mercadoInfo;
     setMercadoInfo(mercado);
     doRefresh(mercado.id);
   }, []);
-
 
   function handleSubmit() {
     navigation.goBack();
@@ -74,7 +72,6 @@ export default function Produtos({ navigation }) {
       <View style={styles.divisor} />
     );
   };
-
 
   return (
     <SafeAreaView style={styles.container}>

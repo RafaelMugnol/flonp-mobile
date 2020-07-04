@@ -10,13 +10,13 @@ import api from '../../services/api';
 import styles from './styles';
 import semImagem from '../../assets/semImagem.png';
 
-export default function SupermercadoDetalhe({ navigation }) {
+export default function SupermercadoDetalhe({ route, navigation }) {
   const [mercado, setMercado] = useState({});
   const [mercadoFavorito, setMercadoFavorito] = useState(false);
   const [currentRegion, setCurrentRegion] = useState(null);
 
   useEffect(() => {
-    carregaMercado(navigation.getParam('supermercadoId'));
+    carregaMercado(route.params.supermercadoId);
 
     setCurrentRegion({
       latitude: -29.2244444,

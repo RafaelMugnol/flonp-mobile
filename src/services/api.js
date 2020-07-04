@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import NavigationService from './navigationService';
+import { navigate } from './rootNavigation';
 
 const baseURLApi = 'https://projemerc.azurewebsites.net/api';
 let obtendoToken = false;
@@ -25,7 +25,6 @@ api.interceptors.response.use((response) => response, async (error) => {
   if (error.response.status === 401 && !originalRequest._retry) {
     if (obtendoToken)
       return api(originalRequest);
-
 
     originalRequest._retry = true;
     obtendoToken = true;
@@ -51,12 +50,12 @@ api.interceptors.response.use((response) => response, async (error) => {
 
         // Caso deu erro ao recarregar o token ir para página de login
         await AsyncStorage.setItem('accessToken', '');
-        NavigationService.navigate('Login');
+        navigate('Login');
         return null;
       })
       .catch(async () => {
         await AsyncStorage.setItem('accessToken', '');
-        NavigationService.navigate('Login');
+        navigate('Login');
         return null;
       })
       .finally(() => {

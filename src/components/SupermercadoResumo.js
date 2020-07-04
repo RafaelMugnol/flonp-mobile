@@ -1,14 +1,15 @@
 import React from 'react';
-import { withNavigation } from 'react-navigation';
 import {
   View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import semImagem from '../assets/semImagem.png';
 
-function SupermercadoResumo({ navigation, mercado }) {
-  // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
+function SupermercadoResumo({ mercado }) {
+  const navigation = useNavigation();
 
+  // https://storageprojmerc.blob.core.windows.net/mercados/<nomeImagem>
   function urlImage() {
     if (mercado.nomeImagem)
       return { uri: `https://storageprojmerc.blob.core.windows.net/mercados/${mercado.nomeImagem}` };
@@ -85,7 +86,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-
 });
 
-export default withNavigation(SupermercadoResumo);
+export default SupermercadoResumo;

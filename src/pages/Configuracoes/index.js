@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView,
   AsyncStorage,
 } from 'react-native';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import api from '../../services/api';
+import AuthContext from '../../services/authContext';
 
-export default function Configuracoes({ navigation }) {
+export default function Configuracoes() {
+  const navigation = useNavigation();
+
   const [dadosUsuario, setDadosUsuario] = useState({});
+
+  const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
     carregaDados();
@@ -23,12 +29,13 @@ export default function Configuracoes({ navigation }) {
 
   async function handleLogout() {
     await AsyncStorage.setItem('accessToken', '');
-    navigation.navigate('Login');
+    signOut();
+    // navigation.navigate('Login');
   }
 
   function handleEdit() {
     navigation.navigate('Perfil', {
-      dados: dadosUsuario,
+      dadosUsuario,
       onGoBack(dadosStualizados) {
         setDadosUsuario(dadosStualizados);
       },

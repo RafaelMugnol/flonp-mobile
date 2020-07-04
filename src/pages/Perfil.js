@@ -8,7 +8,7 @@ import CampoTexto from '../components/CampoTexto';
 import InputPhone from '../components/InputPhone';
 import api from '../services/api';
 
-export default function Perfil({ navigation }) {
+export default function Perfil({ route, navigation }) {
   const [dados, setDados] = useState({
     email: '',
     nome: '',
@@ -16,7 +16,9 @@ export default function Perfil({ navigation }) {
   });
 
   useEffect(() => {
-    setDados(navigation.getParam('dados'));
+    console.log(route.params.dadosUsuario);
+
+    setDados(route.params.dadosUsuario);
   }, []);
 
   const [menssagemErro, setMenssagemErro] = useState('');
@@ -40,7 +42,7 @@ export default function Perfil({ navigation }) {
       });
 
       navigation.goBack();
-      navigation.state.params.onGoBack(dados);
+      route.params.onGoBack(dados);
 
       setProcessando(false);
     }
@@ -55,7 +57,6 @@ export default function Perfil({ navigation }) {
 
     return null;
   }
-
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>

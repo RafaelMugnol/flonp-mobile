@@ -1,8 +1,8 @@
 import React from 'react';
-import { withNavigation } from 'react-navigation';
 import {
   View, StyleSheet, Text, Image, TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import semImagem from '../assets/semImagem.png';
 
@@ -10,7 +10,9 @@ import { unidadeAbreviada } from '../helpers/unidades';
 import { enumTipoCampanha } from '../helpers/tipoCampanha';
 import { formataPreco } from '../helpers/convercoes';
 
-function ProdutoResumo({ navigation, produto }) {
+function ProdutoResumo({ produto }) {
+  const navigation = useNavigation();
+
   function urlImage() {
     if (produto.nomeImagem)
       return { uri: `https://storageprojmerc.blob.core.windows.net/produtos/${produto.nomeImagem}` };
@@ -50,13 +52,11 @@ function ProdutoResumo({ navigation, produto }) {
     return '';
   }
 
-
   function handleClick() {
     navigation.navigate('ProdutoDetalhe', {
       produtoId: produto.id,
     });
   }
-
 
   return (
     <View style={styles.container}>
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-
 });
 
-export default withNavigation(ProdutoResumo);
+export default ProdutoResumo;

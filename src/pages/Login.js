@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
-  View, AsyncStorage, KeyboardAvoidingView, Platform, Text, Alert,
+  View, AsyncStorage, KeyboardAvoidingView, Platform, Text,
   TextInput, Image, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator,
 } from 'react-native';
 
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import { sha256 } from 'js-sha256';
+import AuthContext from '../services/authContext';
 
 import api from '../services/api';
 import logo from '../assets/logo.png';
@@ -17,13 +18,15 @@ export default function Login({ navigation }) {
   const [menssagemErro, setMenssagemErro] = useState('');
   const [processando, setProcessando] = useState(false);
 
+  const { signIn } = useContext(AuthContext);
+
   // Realiza essa ação ao abrir a tela, como o array de dependencias (segundo parâmetro) está vazio
-  useEffect(() => {
-    AsyncStorage.getItem('accessToken').then((accessToken) => {
-      if (accessToken && accessToken !== '')
-        navigation.navigate('PrincipalTab');
-    });
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem('accessToken').then((accessToken) => {
+  //     if (accessToken && accessToken !== '')
+  //       navigation.navigate('PrincipalTab');
+  //   });
+  // }, []);
 
   async function handleSubmit() {
     // alert('No notification permissions!');
@@ -57,7 +60,8 @@ export default function Login({ navigation }) {
       await AsyncStorage.setItem('accessToken', accessToken);
       await AsyncStorage.setItem('refreshToken', refreshToken);
 
-      navigation.navigate('PrincipalTab');
+      signIn({ accessToken });
+      // navigation.navigate('PrincipalTab');
     } else
       setMenssagemErro(response.data.message);
   }
@@ -65,7 +69,6 @@ export default function Login({ navigation }) {
   function handleSignUp() {
     navigation.navigate('SignUp');
   }
-
 
   return (
     <KeyboardAvoidingView enabled={Platform.OS === 'ios'} behavior="padding" style={styles.container}>
@@ -101,7 +104,6 @@ export default function Login({ navigation }) {
           {menssagemErro !== '' && <Text style={styles.errorText}>{menssagemErro}</Text>}
           {processando && <ActivityIndicator />}
         </View>
-
 
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
