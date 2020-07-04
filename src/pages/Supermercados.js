@@ -67,7 +67,7 @@ export default function Supermercados({ navigation }) {
               </TouchableOpacity>
               <TextInput
                 style={styles.input}
-                placeholder="Pesuisar supermercado"
+                placeholder="Pesquisar supermercado"
                 placeholderTextColor="#999"
                 autoCapitalize="none"
                 autoCorrect={false}

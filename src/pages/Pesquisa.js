@@ -58,7 +58,7 @@ export default function Pesquisa() {
         <View style={styles.campoPesquisa}>
           <TextInput
             style={styles.input}
-            placeholder="Pesuisar produto"
+            placeholder="Pesquisar produto"
             placeholderTextColor="#999"
             autoCapitalize="none"
             autoCorrect={false}

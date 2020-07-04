@@ -117,7 +117,7 @@ export default function SupermercadoDetalhe({ navigation }) {
               </View>
             </View>
 
-            {mercado.latitude !== 0 && mercado.longitude !== 0 && (
+            {/* {mercado.latitude !== 0 && mercado.longitude !== 0 && (
               <MapView
                 onRegionChangeComplete={handleRegionChanged}
                 initialRegion={currentRegion}
@@ -132,7 +132,7 @@ export default function SupermercadoDetalhe({ navigation }) {
                   title={mercado.nome}
                 />
               </MapView>
-            )}
+            )} */}
           </View>
         )}
       </View>

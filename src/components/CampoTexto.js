@@ -3,13 +3,12 @@ import { TextInput, Text, StyleSheet } from 'react-native';
 
 
 export default function CampoTexto({
-  label, value, onChangeText, ...rest
+  label, value, onChangeText, style, ...rest
 }) {
   return (
     <>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={styles.input}
         placeholder={label}
         placeholderTextColor="#999"
         autoCapitalize="none"
@@ -17,6 +16,7 @@ export default function CampoTexto({
         value={value}
         onChangeText={onChangeText}
         {...rest}
+        style={[styles.input, style]}
       />
     </>
   );

@@ -71,7 +71,9 @@ export default function Perfil({ navigation }) {
           maxLength={50}
           keyboardType="email-address"
           editable={false}
-          color="#aaa"
+          style={{
+            color: '#aaa',
+          }}
         />
 
         <CampoTexto

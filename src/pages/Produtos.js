@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar,
-  StyleSheet, FlatList, RefreshControl,
+  StyleSheet, FlatList, RefreshControl, Platform,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -101,7 +101,7 @@ export default function Produtos({ navigation }) {
           )}
           keyExtractor={(item) => item.index.toString()}
           ItemSeparatorComponent={renderSeparator}
-          stickyHeaderIndices={categorias}
+          stickyHeaderIndices={Platform.OS === 'ios' ? categorias : null}
           refreshControl={(
             <RefreshControl
               refreshing={refreshing}

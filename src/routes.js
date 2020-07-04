@@ -46,7 +46,7 @@ const FavoritosTab = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerShown: false,
+      header: null,
     },
   },
 );
@@ -115,7 +115,7 @@ const TabsPrincipais = createBottomTabNavigator(
         />
       ),
       tabBarLabel: ({ tintColor }) => (
-        <Text style={{ fontSize: 10, color: tintColor }}>
+        <Text style={{ fontSize: 10, color: tintColor, textAlign: 'center' }}>
           {getLabelTab(navigation.state.routeName)}
         </Text>
       ),

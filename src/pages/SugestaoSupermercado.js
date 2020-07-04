@@ -77,7 +77,7 @@ export default function SugestaoSupermercado({ navigation }) {
         />
 
         <CampoTexto
-          label="Emdereço"
+          label="Endereço"
           value={dados.endereco}
           onChangeText={(value) => setDado(value, 'endereco')}
           maxLength={50}

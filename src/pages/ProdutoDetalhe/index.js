@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, SafeAreaView, StatusBar, Image,
+  ScrollView,
 } from 'react-native';
 
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -104,7 +105,7 @@ export default function ProdutoDetalhe({ navigation }) {
         )}
 
         {produto.nome && (
-          <View>
+          <ScrollView>
             <View style={styles.linhaImagem}>
               <Image style={styles.thumbnail} source={urlImage()} />
             </View>
@@ -192,7 +193,7 @@ export default function ProdutoDetalhe({ navigation }) {
                 )}
             </View>
 
-          </View>
+          </ScrollView>
         )}
       </View>
 
