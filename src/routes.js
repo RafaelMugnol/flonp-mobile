@@ -72,6 +72,7 @@ function PrincipalTab() {
       <Stack.Screen name="SupermercadosMapa" component={SupermercadosMapa} />
       <Stack.Screen name="SupermercadoDetalhe" component={SupermercadoDetalhe} />
       <Stack.Screen name="Produtos" component={Produtos} />
+      <Stack.Screen name="ProdutoDetalhe" component={ProdutoDetalhe} />
       <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   );
@@ -157,7 +158,7 @@ function TabsPrincipais() {
         name="Configurações"
         component={ConfiguracoesTab}
         options={{
-          tabBarLabel: 'Supermercados',
+          tabBarLabel: 'Configurações',
           tabBarIcon: ({ color, size }) => (
             <Icon name="ios-settings" size={30} color={color} />
           ),
@@ -270,9 +271,9 @@ function Routes() {
           // No token found, user isn't signed in
           <LoginStack />
         ) : (
-              // User is signed in
-              <TabsPrincipais />
-            )}
+        // User is signed in
+          <TabsPrincipais />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );

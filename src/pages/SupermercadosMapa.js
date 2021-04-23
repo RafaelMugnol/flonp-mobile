@@ -116,7 +116,7 @@ export default function SupermercadosMapa({ navigation }) {
           </View>
         )}
 
-        {/* {currentRegion && (
+        {currentRegion && (
           <MapView
             onRegionChangeComplete={handleRegionChanged}
             initialRegion={currentRegion}
@@ -146,7 +146,7 @@ export default function SupermercadosMapa({ navigation }) {
               </Marker>
             ))}
           </MapView>
-        )} */}
+        )}
 
       </View>
 
