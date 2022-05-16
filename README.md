@@ -11,7 +11,7 @@ E está publicado nesse repositório com o intuíto de expor meu portifólio e c
 <p align="center">
   <a href="#-sobre-o-tcc">Sobre o TCC</a> |
   <a href="#%EF%B8%8F-arquitetura">Arquitetura</a> |
-  <a href="#-tecnologias">Tecnologias</a> |
+  <a href="#%EF%B8%8F-tecnologias">Tecnologias</a> |
   <a href="#-capturas-de-telas">Capturas de Telas</a>
 </p>
 
@@ -58,49 +58,40 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## 📱 Capturas de Telas
 
 <h3 align="center">Produtos</h3>
-<br />
 <p align="center">
-  <img width="250" style="border-radius: 5px" src="snapshots/list_products.png" alt="Listagem de produtos">
+  <img width="250" src="snapshots/list_products.png" alt="Listagem de produtos">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/product_detail.png" alt="Detalhe do produto">
+  <img width="250" src="snapshots/product_detail.png" alt="Detalhe do produto">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/search_product.png" alt="pesquisa de produto">
+  <img width="250" src="snapshots/search_product.png" alt="pesquisa de produto">
 </p>
-<br />
 
 <h3 align="center">Mercados</h3>
-<br />
 <p align="center">
-  <img width="250" style="border-radius: 5px" src="snapshots/list_markets.png" alt="Listagem de mercados">
+  <img width="250" src="snapshots/list_markets.png" alt="Listagem de mercados">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/market_detail.png" alt="Detalhe do mercado">
+  <img width="250" src="snapshots/market_detail.png" alt="Detalhe do mercado">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/map_markets.png" alt="pesquisa de produto">
+  <img width="250" src="snapshots/map_markets.png" alt="pesquisa de produto">
 </p>
-<br />
 
 <h3 align="center">Favoritos</h3>
-<br />
 <p align="center">
-  <img width="250" style="border-radius: 5px" src="snapshots/favorite_products.png" alt="Produtos favoritos">
+  <img width="250" src="snapshots/favorite_products.png" alt="Produtos favoritos">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/favorite_markets.png" alt="Mercados favoritos">
+  <img width="250" src="snapshots/favorite_markets.png" alt="Mercados favoritos">
 </p>
-<br />
 
 <h3 align="center">Login / Configurações</h3>
-<br />
 <p align="center">
-  <img width="250" style="border-radius: 5px" src="snapshots/login.png" alt="Login">
+  <img width="250" src="snapshots/login.png" alt="Login">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="250" style="border-radius: 5px" src="snapshots/settings.png" alt="Configurações">
+  <img width="250" src="snapshots/settings.png" alt="Configurações">
 </p>
-<br />
 
 <h3 align="center">Notificações</h3>
-<br />
 <p align="center">
-  <img width="250" style="border-radius: 5px" src="snapshots/notification.png" alt="Notificações">
+  <img width="250" src="snapshots/notification.png" alt="Notificações">
 </p>
 
 ---
