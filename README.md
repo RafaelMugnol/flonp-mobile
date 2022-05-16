@@ -1,7 +1,7 @@
 # Flonp · Mobile
 
 > Flonp é um projeto desenvolvido para um trabalho de conclusão de curso de Análise e Desenvolvimento de Sistemas. 
-E está publicado nesse repositório com o intuíto de expor meu portifólio e contribuir com ideias para a comunidade.
+E está publicado nesse repositório com o intuito de expor meu portfólio e contribuir com ideias para a comunidade.
 
 <br />
 <p align="center">
