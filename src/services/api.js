@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { navigate } from './rootNavigation';
 
-const baseURLApi = 'https://projemerc.azurewebsites.net/api';
+const baseURLApi = 'https://url.com/api';
 let obtendoToken = false;
 
 const api = axios.create({
